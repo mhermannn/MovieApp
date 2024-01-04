@@ -1,0 +1,85 @@
+.trend {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding-right: 20px;
+  padding-left: 20px;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    li {
+      width: 80%;
+      margin-bottom: 10px;
+      max-width: 60vw;
+      padding: 15px;
+      padding-right: 30px;
+      border: 1px solid #4f323b;
+      border-radius: 5px;
+      background-color: #ece9e1;
+
+      .nazwa {
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+
+      .multimedia {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+
+        .zdjecie {
+          margin-right: 15px;
+
+          img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+          }
+        }
+
+        .bok {
+          .dane {
+            list-style: none;
+            padding: 0;
+          }
+        }
+      }
+
+      .guziki {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        button {
+          margin-right: 5px;
+          padding: 5px 10px;
+          font-size: 14px;
+          background-color: #4f323b;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #3b252c;
+          }
+        }
+      }
+
+      .dane {
+        margin-top: 15px;
+        font-size: 0.9em;
+        max-width: 60vw;
+      }
+    }
+  }
+}
