@@ -1,204 +1,161 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 import '../stylowanie/PopularMovie.css';
-const PopularMovies = () => {
-  const [movies, setMovies] = useState([]);
+
+export default function PopularMovies() {
+  const [popular, setPopular] = useState([]);
+  const [movieDetails, setMovieDetails] = useState({});
+  const [selectedTrailer, setSelectedTrailer] = useState(null);
+  const [selectedGallery, setSelectedGallery] = useState(null);
+  const [movieImages, setMovieImages] = useState([]);
+
+  const getTrending = () => {
+    fetch('https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=f47b9f8a9c3382dcf52205a038f8a1fd')
+      .then((res) => res.json())
+      .then((json) => setPopular(json.results))
+      .catch((error) => console.error('Error fetching trending movies:', error));
+  };
+
+  const getMovieDetails = async (movieId) => {
+    try {
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=f47b9f8a9c3382dcf52205a038f8a1fd&append_to_response=videos`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const movieDetails = await response.json();
+      const videos = movieDetails.videos.results;
+      const trailer = videos.find((video) => video.type === 'Trailer');
+      const trailerKey = trailer?.key;
+      const trailerUrl = trailerKey ? `https://www.youtube.com/watch?v=${trailerKey}` : '';
+
+      const creditsResponse = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`);
+      if (!creditsResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const credits = await creditsResponse.json();
+      const directors = credits.crew.filter((person) => person.job === 'Director').map((person) => person.name);
+      const actors = credits.cast.map((person) => person.name);
+
+      setMovieDetails((prevDetails) => ({
+        ...prevDetails,
+        [movieId]: {
+          genres: movieDetails.genres.map((el) => el.name).join(', '),
+          directors: directors.join(', '),
+          actors: actors.join(', '),
+          trailerUrl: trailerUrl,
+        },
+      }));
+    } catch (error) {
+      console.error('Error fetching movie details:', error);
+      setMovieDetails((prevDetails) => ({
+        ...prevDetails,
+        [movieId]: { genres: 'N/A', directors: 'N/A', actors: 'N/A', trailerUrl: '' },
+      }));
+    }
+  };
+  const getMovieImages = async (movieId) => {
+    try {
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const imagesData = await response.json();
+  
+      // Log the entire imagesData object to the console
+      console.log('imagesData:', imagesData);
+  
+      // Assuming you want to display posters, you can access the posters property
+      const backdrops = imagesData?.backdrops?.map((backdrop) => `https://image.tmdb.org/t/p/w500${backdrop.file_path}`) || [];
+  
+      console.log('posters:', backdrops); // Log the posters array to the console
+      setMovieImages((prevImages) => ({ ...prevImages, [movieId]: backdrops }));
+    } catch (error) {
+      console.error('Error fetching movie posters:', error);
+      setMovieImages((prevImages) => ({ ...prevImages, [movieId]: [] }));
+    }
+  };
+  const fetchMovieDetails = async () => {
+    await Promise.all(popular.map(async (movie) => {
+      await getMovieDetails(movie.id);
+    }));
+  };
 
   useEffect(() => {
-    const placeholderMovies = [
-        {
-            "adult": false,
-            "backdrop_path": "/sRLC052ieEzkQs9dEtPMfFxYkej.jpg",
-            "genre_ids": [
-                878
-            ],
-            "id": 848326,
-            "original_language": "en",
-            "original_title": "Rebel Moon - Part One: A Child of Fire",
-            "overview": "When a peaceful colony on the edge of the galaxy finds itself threatened by the armies of the tyrannical Regent Balisarius, they dispatch Kora, a young woman with a mysterious past, to seek out warriors from neighboring planets to help them take a stand.",
-            "popularity": 2998.858,
-            "poster_path": "/ui4DrH1cKk2vkHshcUcGt2lKxCm.jpg",
-            "release_date": "2023-12-15",
-            "title": "Rebel Moon - Part One: A Child of Fire",
-            "video": false,
-            "vote_average": 6.463,
-            "vote_count": 964
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/5a4JdoFwll5DRtKMe7JLuGQ9yJm.jpg",
-            "genre_ids": [
-                18,
-                878,
-                28
-            ],
-            "id": 695721,
-            "original_language": "en",
-            "original_title": "The Hunger Games: The Ballad of Songbirds & Snakes",
-            "overview": "64 years before he becomes the tyrannical president of Panem, Coriolanus Snow sees a chance for a change in fortunes when he mentors Lucy Gray Baird, the female tribute from District 12.",
-            "popularity": 2750.026,
-            "poster_path": "/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
-            "release_date": "2023-11-15",
-            "title": "The Hunger Games: The Ballad of Songbirds & Snakes",
-            "video": false,
-            "vote_average": 7.243,
-            "vote_count": 1297
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/jXJxMcVoEuXzym3vFnjqDW4ifo6.jpg",
-            "genre_ids": [
-                28,
-                12,
-                14
-            ],
-            "id": 572802,
-            "original_language": "en",
-            "original_title": "Aquaman and the Lost Kingdom",
-            "overview": "Black Manta, still driven by the need to avenge his father's death and wielding the power of the mythic Black Trident, will stop at nothing to take Aquaman down once and for all. To defeat him, Aquaman must turn to his imprisoned brother Orm, the former King of Atlantis, to forge an unlikely alliance in order to save the world from irreversible destruction.",
-            "popularity": 1542.493,
-            "poster_path": "/8xV47NDrjdZDpkVcCFqkdHa3T0C.jpg",
-            "release_date": "2023-12-20",
-            "title": "Aquaman and the Lost Kingdom",
-            "video": false,
-            "vote_average": 6.5,
-            "vote_count": 360
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/r9bIkU9nXZUWSlDUgDMUcDrlK0A.jpg",
-            "genre_ids": [
-                28,
-                35
-            ],
-            "id": 1029575,
-            "original_language": "en",
-            "original_title": "The Family Plan",
-            "overview": "Dan Morgan is many things: a devoted husband, a loving father, a celebrated car salesman. He's also a former assassin. And when his past catches up to his present, he's forced to take his unsuspecting family on a road trip unlike any other.",
-            "popularity": 2069.624,
-            "poster_path": "/jLLtx3nTRSLGPAKl4RoIv1FbEBr.jpg",
-            "release_date": "2023-12-14",
-            "title": "The Family Plan",
-            "video": false,
-            "vote_average": 7.381,
-            "vote_count": 550
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/gg4zZoTggZmpAQ32qIrP5dtnkEZ.jpg",
-            "genre_ids": [
-                28,
-                80
-            ],
-            "id": 891699,
-            "original_language": "en",
-            "original_title": "Silent Night",
-            "overview": "A tormented father witnesses his young son die when caught in a gang's crossfire on Christmas Eve. While recovering from a wound that costs him his voice, he makes vengeance his life's mission and embarks on a punishing training regimen in order to avenge his son's death.",
-            "popularity": 1797.04,
-            "poster_path": "/tlcuhdNMKNGEVpGqBZrAaOOf1A6.jpg",
-            "release_date": "2023-11-30",
-            "title": "Silent Night",
-            "video": false,
-            "vote_average": 5.838,
-            "vote_count": 225
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/t5zCBSB5xMDKcDqe91qahCOUYVV.jpg",
-            "genre_ids": [
-                27,
-                9648
-            ],
-            "id": 507089,
-            "original_language": "en",
-            "original_title": "Five Nights at Freddy's",
-            "overview": "Recently fired and desperate for work, a troubled young man named Mike agrees to take a position as a night security guard at an abandoned theme restaurant: Freddy Fazbear's Pizzeria. But he soon discovers that nothing at Freddy's is what it seems.",
-            "popularity": 1078.27,
-            "poster_path": "/7BpNtNfxuocYEVREzVMO75hso1l.jpg",
-            "release_date": "2023-10-25",
-            "title": "Five Nights at Freddy's",
-            "video": false,
-            "vote_average": 7.76,
-            "vote_count": 3058
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/zIYROrkHJPYB3VTiW1L9QVgaQO.jpg",
-            "genre_ids": [
-                28,
-                35
-            ],
-            "id": 897087,
-            "original_language": "en",
-            "original_title": "Freelance",
-            "overview": "An ex-special forces operative takes a job to provide security for a journalist as she interviews a dictator, but a military coup breaks out in the middle of the interview, they are forced to escape into the jungle where they must survive.",
-            "popularity": 1044.989,
-            "poster_path": "/7Bd4EUOqQDKZXA6Od5gkfzRNb0.jpg",
-            "release_date": "2023-10-05",
-            "title": "Freelance",
-            "video": false,
-            "vote_average": 6.5,
-            "vote_count": 426
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/rLb2cwF3Pazuxaj0sRXQ037tGI1.jpg",
-            "genre_ids": [
-                18,
-                36
-            ],
-            "id": 872585,
-            "original_language": "en",
-            "original_title": "Oppenheimer",
-            "overview": "The story of J. Robert Oppenheimer's role in the development of the atomic bomb during World War II.",
-            "popularity": 889.087,
-            "poster_path": "/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
-            "release_date": "2023-07-19",
-            "title": "Oppenheimer",
-            "video": false,
-            "vote_average": 8.118,
-            "vote_count": 5857
-        },
-    ];
-    setMovies(placeholderMovies);
+    getTrending();
   }, []);
 
+  useEffect(() => {
+    fetchMovieDetails();
+  }, [popular]);
+
+  const handleShowTrailer = (movieId) => {
+    setSelectedTrailer((prevSelectedTrailer) => (prevSelectedTrailer === movieId ? null : movieId));
+  };
+
+  const handleShowGallery = async (movieId) => {
+    setSelectedGallery((prevSelectedGallery) => (prevSelectedGallery === movieId ? null : movieId));
+    if (!movieImages[movieId]) {
+      try {
+        await getMovieImages(movieId);
+      } catch (error) {
+        console.error('Error fetching movie images:', error);
+      }
+    }
+  };
+  
+
   return (
-    <div class="trend">
+    <div className="trend">
       <h2>Trending Movies</h2>
       <ul>
-        {movies.map((movie) => (
+        {popular.map((movie) => (
           <li key={movie.id}>
-                <div class="nazwa">{movie.title}</div>
-                <div class="multimedia">
-                    <div class="zdjecie">
-                        <img src={movie.poster_path}/>
-                    </div>
-                    <div class="bok">
-                        <div class="dane">
-                            <div>Reżyser: </div>
-                            <div>Aktorzy: </div>
-                            <div>Średnia ocena filmu: {movie.vote_average}</div>
-                            <div>Ilość ocen: {movie.vote_count}</div>
-                            <div>Data wydania: {movie.release_date}</div>
-                            <div>Gatunki {movie.genre_ids}</div>
-                        </div>
-                    </div>
-
-                    
+            <div className="nazwa">{movie.title}</div>
+            <div className='odnosnik'>
+                <a className="odnosnik_link" href={`https://www.themoviedb.org/movie/${movie.id}`} target="_blank" rel="noopener noreferrer">
+                    Odnośnik do moviedb
+                </a>
+            </div>
+            <div className="multimedia">
+              <div className="zdjecie">
+                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`} alt="Movie Poster" />
+              </div>
+              <div className="bok">
+                <div className="dane">
+                  <div>Reżyser: {movieDetails[movie.id]?.directors}</div>
+                  <div>Aktorzy: {movieDetails[movie.id]?.actors.split(', ').slice(0, 5).join(', ')}</div>
+                  <div>Średnia ocena filmu: {movie.vote_average}</div>
+                  <div>Ilość ocen: {movie.vote_count}</div>
+                  <div>Data wydania: {movie.release_date}</div>
+                  <div>Gatunki: {movieDetails[movie.id]?.genres}</div>
                 </div>
-                <div class="guziki">
-                        <button class="galeria">galeria</button>
-                        <button class="zwiastun">zwiastun</button>
-                        <button class="odnosnik">odnośnik do strony</button> {/*movie.backdrop_path*/}
+              </div>
+            </div>
+            <div className="guziki">
+            <button className="galeria" onClick={() => handleShowGallery(movie.id)}>
+                {selectedGallery === movie.id ? 'Schowaj galerie' : 'Pokaż galerię'}
+            </button>
+            <button className="zwiastun" onClick={() => handleShowTrailer(movie.id)}>
+              {selectedTrailer=== movie.id ? 'Schowaj zwiastun' : 'Pokaż zwiastun'}
+            </button>
+            </div>
+            <div className="dane">{movie.overview}</div>
+            {selectedTrailer === movie.id && (
+              <div className='trailer-video'>
+                <ReactPlayer url={movieDetails[movie.id]?.trailerUrl} controls width="300px" height="auto"/>
+              </div>
+            )}
+            {selectedGallery === movie.id && movieImages[movie.id] && (
+                <div className="galeria-section">
+                    {movieImages[movie.id].map((image, index) => (
+                    <img key={index} src={image} alt={`Movie Still ${index + 1}`} />
+                    ))}
                 </div>
-                <div class="dane">
-                    {movie.overview}
-                </div>
-            </li>
+                )}
+          </li>
         ))}
       </ul>
     </div>
   );
 };
-
-export default PopularMovies;
