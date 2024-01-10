@@ -1,0 +1,110 @@
+ul {
+    list-style: none;
+    display: grid;
+    max-width: 1050px;
+    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    width: 100%; 
+    li {
+        width: 85%;
+        margin-bottom: 10px;
+        max-width: 60vw;
+        padding: 15px; 
+        border: 1px solid #4f323b;
+        border-radius: 5px;
+        background-color: #ece9e1;
+        &:first-child,
+        &:nth-child(2),
+        &:nth-child(3) {
+            margin-top: 20px;
+        }
+    .nazwa {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .odnosnik{
+        margin-top: 2px;
+    }
+    .odnosnik_link {
+        color: #4f323b;
+        text-decoration: none;
+        transition: color 0.3s;
+
+        &:hover {
+        color: #ea9085;
+        }
+    }
+    .multimedia {
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+        .zdjecie {
+            margin-right: 15px;
+            img {
+                max-width: 100px;
+                height: auto;
+                border-radius: 5px;
+            }
+        }
+        .bok {
+            .dane {
+                list-style: none;
+                padding: 0;
+            }
+        }
+    }
+    .guziki {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        button {
+        margin-right: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        background-color: #4f323b;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        &:hover {
+            background-color: #ea9085;
+        }
+        }
+    }
+    .trailer-video{
+        margin-top: 15px;
+    }
+    .dane {
+        margin-top: 15px;
+        font-size: 0.9em;
+        max-width: 60vw;
+    }
+
+    .galeria-section {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 15px;
+        img {
+        margin-right: 10px;
+        margin-bottom: 10px;
+        max-width: 130px;
+        height: auto;
+        border-radius: 5px;
+        }
+    }
+    }
+}
+@media (max-width: 1050px) {
+    ul {
+        padding: 0;
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+    li {
+      width: 100%;
+      margin-left: 15vw;
+      &:first-child {
+        margin-top: 15px;
+    }
+    }
+  }

@@ -4,96 +4,9 @@
   justify-content: center;
   max-width: 1050px;
   margin: 0 auto;
-  padding-right: 20px;
   padding-left: 20px;
 }
 .trend h2 {
   font-size: 24px;
   margin-bottom: 10px;
-}
-.trend ul {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-}
-.trend ul li {
-  width: 80%;
-  margin-bottom: 10px;
-  max-width: 60vw;
-  padding: 15px;
-  padding-right: 30px;
-  border: 1px solid #4f323b;
-  border-radius: 5px;
-  background-color: #ece9e1;
-}
-.trend ul li .nazwa {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-.trend ul li .odnosnik {
-  margin-top: 2px;
-}
-.trend ul li .odnosnik_link {
-  color: #4f323b;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-.trend ul li .odnosnik_link:hover {
-  color: #ea9085;
-}
-.trend ul li .multimedia {
-  display: flex;
-  align-items: center;
-  margin-top: 5px;
-}
-.trend ul li .multimedia .zdjecie {
-  margin-right: 15px;
-}
-.trend ul li .multimedia .zdjecie img {
-  max-width: 100px;
-  height: auto;
-  border-radius: 5px;
-}
-.trend ul li .multimedia .bok .dane {
-  list-style: none;
-  padding: 0;
-}
-.trend ul li .guziki {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-}
-.trend ul li .guziki button {
-  margin-right: 5px;
-  padding: 5px 10px;
-  font-size: 14px;
-  background-color: #4f323b;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.trend ul li .guziki button:hover {
-  background-color: #ea9085;
-}
-.trend ul li .trailer-video {
-  margin-top: 15px;
-}
-.trend ul li .dane {
-  margin-top: 15px;
-  font-size: 0.9em;
-  max-width: 60vw;
-}
-.trend ul li .galeria-section {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 15px;
-}
-.trend ul li .galeria-section img {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  max-width: 130px;
-  height: auto;
-  border-radius: 5px;
 }/*# sourceMappingURL=PopularMovie.css.map */

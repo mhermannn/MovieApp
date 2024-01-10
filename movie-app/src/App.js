@@ -2,7 +2,7 @@ import React from 'react';
 import SearchMovie from './components/SearchMovie'
 import PopularMovies from './components/PopularMovies'
 import './stylowanie/MainStyle.css'
-function App() {
+export default function App() {
   return (
     <div className="App">
       <nav>
@@ -10,11 +10,13 @@ function App() {
         <div class="autor">Magdalena Hermann</div>
       </nav>
       <main>
-        <SearchMovie/>
-        <PopularMovies />
+        <div class="search">
+          <SearchMovie />
+        </div>
+        <div class="pop">
+          <PopularMovies />
+        </div>
       </main>
     </div>
   );
 }
-
-export default App;

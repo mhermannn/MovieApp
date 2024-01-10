@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import ReactPlayer from 'react-player';
+import RenderMovie from './renderMovie';
 import '../stylowanie/PopularMovie.css';
 
 export default function PopularMovies() {
@@ -61,14 +60,9 @@ export default function PopularMovies() {
         throw new Error('Network response was not ok');
       }
       const imagesData = await response.json();
-  
-      // Log the entire imagesData object to the console
-      console.log('imagesData:', imagesData);
-  
-      // Assuming you want to display posters, you can access the posters property
+      // console.log('imagesData:', imagesData);
       const backdrops = imagesData?.backdrops?.map((backdrop) => `https://image.tmdb.org/t/p/w500${backdrop.file_path}`) || [];
-  
-      console.log('posters:', backdrops); // Log the posters array to the console
+      // console.log('posters:', backdrops); 
       setMovieImages((prevImages) => ({ ...prevImages, [movieId]: backdrops }));
     } catch (error) {
       console.error('Error fetching movie posters:', error);
@@ -80,14 +74,6 @@ export default function PopularMovies() {
       await getMovieDetails(movie.id);
     }));
   };
-
-  useEffect(() => {
-    getTrending();
-  }, []);
-
-  useEffect(() => {
-    fetchMovieDetails();
-  }, [popular]);
 
   const handleShowTrailer = (movieId) => {
     setSelectedTrailer((prevSelectedTrailer) => (prevSelectedTrailer === movieId ? null : movieId));
@@ -103,57 +89,31 @@ export default function PopularMovies() {
       }
     }
   };
+
+  useEffect(() => {
+    getTrending();
+  }, []);
+
   
+  useEffect(() => {
+    fetchMovieDetails();
+  }, [popular]);
 
   return (
     <div className="trend">
       <h2>Trending Movies</h2>
       <ul>
         {popular.map((movie) => (
-          <li key={movie.id}>
-            <div className="nazwa">{movie.title}</div>
-            <div className='odnosnik'>
-                <a className="odnosnik_link" href={`https://www.themoviedb.org/movie/${movie.id}`} target="_blank" rel="noopener noreferrer">
-                    Odnośnik do moviedb
-                </a>
-            </div>
-            <div className="multimedia">
-              <div className="zdjecie">
-                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`} alt="Movie Poster" />
-              </div>
-              <div className="bok">
-                <div className="dane">
-                  <div>Reżyser: {movieDetails[movie.id]?.directors}</div>
-                  <div>Aktorzy: {movieDetails[movie.id]?.actors.split(', ').slice(0, 5).join(', ')}</div>
-                  <div>Średnia ocena filmu: {movie.vote_average}</div>
-                  <div>Ilość ocen: {movie.vote_count}</div>
-                  <div>Data wydania: {movie.release_date}</div>
-                  <div>Gatunki: {movieDetails[movie.id]?.genres}</div>
-                </div>
-              </div>
-            </div>
-            <div className="guziki">
-            <button className="galeria" onClick={() => handleShowGallery(movie.id)}>
-                {selectedGallery === movie.id ? 'Schowaj galerie' : 'Pokaż galerię'}
-            </button>
-            <button className="zwiastun" onClick={() => handleShowTrailer(movie.id)}>
-              {selectedTrailer=== movie.id ? 'Schowaj zwiastun' : 'Pokaż zwiastun'}
-            </button>
-            </div>
-            <div className="dane">{movie.overview}</div>
-            {selectedTrailer === movie.id && (
-              <div className='trailer-video'>
-                <ReactPlayer url={movieDetails[movie.id]?.trailerUrl} controls width="300px" height="auto"/>
-              </div>
-            )}
-            {selectedGallery === movie.id && movieImages[movie.id] && (
-                <div className="galeria-section">
-                    {movieImages[movie.id].map((image, index) => (
-                    <img key={index} src={image} alt={`Movie Still ${index + 1}`} />
-                    ))}
-                </div>
-                )}
-          </li>
+          <RenderMovie
+          key={movie.id}
+          movie={movie}
+          movieDetails={movieDetails}
+          selectedTrailer={selectedTrailer}
+          selectedGallery={selectedGallery}
+          movieImages={movieImages}
+          handleShowGallery={handleShowGallery}
+          handleShowTrailer={handleShowTrailer}
+          />
         ))}
       </ul>
     </div>
