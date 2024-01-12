@@ -21,4 +21,17 @@
 .szukamy input:focus {
   outline: none;
   border-color: #4f323b;
+}
+.szukamy form {
+  padding-left: 20px;
+}
+.szukamy form div select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex-grow: 1;
+  margin: auto 0;
+  background-color: #4f323b;
+  color: #ccc;
 }/*# sourceMappingURL=Search.css.map */

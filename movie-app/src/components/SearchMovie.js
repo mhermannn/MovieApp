@@ -119,6 +119,16 @@ export default function SearchMovie() {
           value={searchText}
           onChange={handleInputChange}
         />
+        <form action="typeSearch">
+          <div>
+            <select name="lista">
+              <option value="default">default</option>
+              <option value="gatunek">gatunek</option>
+              <option value="rezyser">reżyser</option>
+              <option value="aktor">aktor</option>
+            </select>
+          </div>
+      </form>
       </div>
       <div className="znajdujemy">
         <ul>
