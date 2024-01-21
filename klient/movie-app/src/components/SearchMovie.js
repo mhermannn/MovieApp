@@ -12,32 +12,14 @@ export default function SearchMovie() {
 
   const getMovieDetails = async (movieId) => {
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=f47b9f8a9c3382dcf52205a038f8a1fd&append_to_response=videos`);
+      const response = await fetch(`/movie-details/${movieId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const movieDetails = await response.json();
-      const videos = movieDetails.videos.results;
-      const trailer = videos.find((video) => video.type === 'Trailer');
-      const trailerKey = trailer?.key;
-      const trailerUrl = trailerKey ? `https://www.youtube.com/watch?v=${trailerKey}` : '';
-
-      const creditsResponse = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`);
-      if (!creditsResponse.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const credits = await creditsResponse.json();
-      const directors = credits.crew.filter((person) => person.job === 'Director').map((person) => person.name);
-      const actors = credits.cast.map((person) => person.name);
-
       setMovieDetails((prevDetails) => ({
         ...prevDetails,
-        [movieId]: {
-          genres: movieDetails.genres.map((el) => el.name).join(', '),
-          directors: directors.join(', '),
-          actors: actors.join(', '),
-          trailerUrl: trailerUrl,
-        },
+        [movieId]: movieDetails,
       }));
     } catch (error) {
       console.error('Error fetching movie details:', error);
@@ -50,15 +32,14 @@ export default function SearchMovie() {
 
   const getMovieImages = async (movieId) => {
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`);
+      const response = await fetch(`/movie-images/${movieId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const imagesData = await response.json();
-      const backdrops = imagesData?.backdrops?.map((backdrop) => `https://image.tmdb.org/t/p/w500${backdrop.file_path}`) || [];
-      setMovieImages((prevImages) => ({ ...prevImages, [movieId]: backdrops }));
+      setMovieImages((prevImages) => ({ ...prevImages, [movieId]: imagesData }));
     } catch (error) {
-      console.error('Error fetching movie posters:', error);
+      console.error('Error fetching movie images:', error);
       setMovieImages((prevImages) => ({ ...prevImages, [movieId]: [] }));
     }
   };
@@ -71,16 +52,17 @@ export default function SearchMovie() {
 
   const searchHandler = async (searchText) => {
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=f47b9f8a9c3382dcf52205a038f8a1fd&query=${searchText}`);
+      const response = await fetch(`/search-movie?query=${searchText}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const searchData = await response.json();
-      setShowSearch(searchData.results);
+      setShowSearch(searchData);
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
   };
+
   const handleShowTrailer = (movieId) => {
     setSelectedTrailer((prevSelectedTrailer) => (prevSelectedTrailer === movieId ? null : movieId));
   };
@@ -122,10 +104,13 @@ export default function SearchMovie() {
         <form action="typeSearch">
           <div>
             <select name="lista">
-              <option value="default">default</option>
+              <option value="default">słowo kluczowe</option>
               <option value="gatunek">gatunek</option>
-              <option value="rezyser">reżyser</option>
-              <option value="aktor">aktor</option>
+            </select>
+            <select name="lista">
+            <option value="nosort">brak sortowania</option>
+              <option value="yearnew">rok (od najnowszego)</option>
+              <option value="yearold">rok (od najstarszego)</option>
             </select>
           </div>
       </form>

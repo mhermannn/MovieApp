@@ -1,28 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const neo4j = require('neo4j-driver');
-const dotenv = require('dotenv');
+const movieController = require('../controllers/movieController');
 
-dotenv.config({ path: '../.env' });
+router.get('/movies-and-genres', movieController.getAllMoviesAndGenres);
+router.get('/movie-details/:movieId', movieController.getMovieDetails);
 
-const URI = process.env.NEO4J_URI;
-const USER = process.env.NEO4J_USERNAME;
-const PASSWORD = process.env.NEO4J_PASSWORD;
+//search part
+router.get('/movie-search/:pattern', movieController.MovieSearch)
+router.get('/movie-search/new/:pattern', movieController.MovieSearchNew)
+router.get('/movie-search/old/:pattern', movieController.MovieSearchOld)
+router.get('/genre-search/:pattern', movieController.GenSearch)
+router.get('/genre-search/new/:pattern', movieController.GenSearchNew)
+router.get('/genre-search/old/:pattern', movieController.GenSearchOld)
 
-const driver = neo4j.driver(URI, neo4j.auth.basic(USER,PASSWORD));
+//comments
+router.post('/movie-comment/id', movieController.CommentPost)
 
-const session = driver.session();
+//ratings
+router.post('/movie-rating/:id', movieController.MovieRating)
+router.post('/tmdb-rating/:id', movieController.TMDBrating)
 
-// Endpoint zwracający wszystkie wierzchołki z bazy danych
-router.get('/nodes', async (req, res) => {
-    try {
-        const result = await session.run('MATCH (n) RETURN n');
-        const nodes = result.records.map(record => record.get('n').properties);
-        res.json(nodes);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+//add movie part
+router.post('/add-movie', movieController.addMovie);
+
+//admin part
+router.delete('/delete-movie/:id', movieController.DeleteMovie)
+router.delete('/delete-comment/:id', movieController.DeleteComment)
+router.patch('/patch-movie/:id', movieController.ChangeMovie)
+router.post('/add-movie', movieController.addMovie)
 
 module.exports = router;

@@ -56,6 +56,24 @@ export default function RenderMovie({
           value={userRating}
         />
       </div>
+      <div className="comments-section">
+        <h4>Komentarze:</h4>
+        <ul>
+          {comments.map((comment, index) => (
+            <li key={index}>{comment}</li>
+          ))}
+        </ul>
+        <div>
+          <input
+            type="text"
+            placeholder="Add a comment..."
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          />
+          <button onClick={handleAddComment}>Dodaj Komentarz</button>
+        </div>
+      </div>
+      
       <div className="guziki">
         <button className="galeria" onClick={() => handleShowGallery(movie.id)}>
           {selectedGallery === movie.id ? 'Schowaj galerie' : 'Pokaż galerię'}
