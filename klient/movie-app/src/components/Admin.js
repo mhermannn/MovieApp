@@ -1,104 +1,106 @@
 import React, { useState, useEffect } from 'react';
 import AddMovie from './AddMovie';
+import EditMovie from './EditMovie';
+import RenderMovieAdmin4 from './4ADrender';
 
 const Admin = () => {
   const [movies, setMovies] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
+  const [selectedMovieDelete, setSelectedMovieDelete] = useState(null);
+  const [showDeleteMessage, setShowDeleteMessage] = useState(false);
+  const [moviesUpdated, setMoviesUpdated] = useState(false);
+  const [showAddMovie, setShowAddMovie] = useState(false);
 
   useEffect(() => {
-    // Fetch movies and comments from the server when the component mounts
     fetchMovies();
-    fetchComments();
-  }, []);
+  }, [moviesUpdated]);
 
   const fetchMovies = async () => {
-    // Fetch movies from the server and update the state
     try {
-      const response = await fetch('/api/movies'); // Adjust the API endpoint
+      const response = await fetch(`http://localhost:4000/get-Mine`);
       const data = await response.json();
-      setMovies(data);
+      console.log(data);
+      setMovies(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching movies:', error);
-    }
-  };
-
-  const fetchComments = async () => {
-    // Fetch comments from the server and update the state
-    try {
-      const response = await fetch('/api/comments'); // Adjust the API endpoint
-      const data = await response.json();
-      setComments(data);
-    } catch (error) {
-      console.error('Error fetching comments:', error);
-    }
-  };
-
-  const handleDeleteMovie = async (movieId) => {
-    // Delete a movie from the server and update the state
-    try {
-      await fetch(`/api/movies/${movieId}`, {
-        method: 'DELETE',
-      });
-      setMovies(movies.filter((movie) => movie.id !== movieId));
-    } catch (error) {
-      console.error('Error deleting movie:', error);
+      setMovies([]);
     }
   };
 
   const handleEditMovie = (movie) => {
-    // Set the selected movie for editing
-    setSelectedMovie(movie);
+    setSelectedMovieEdit(movie);
+    setSelectedMovieDelete(null); 
+    setShowDeleteMessage(false); 
+    setShowAddMovie(false);
   };
 
-  const handleDeleteComment = async (commentId) => {
-    // Delete a comment from the server and update the state
-    try {
-      await fetch(`/api/comments/${commentId}`, {
-        method: 'DELETE',
-      });
-      setComments(comments.filter((comment) => comment.id !== commentId));
-    } catch (error) {
-      console.error('Error deleting comment:', error);
-    }
+  const handleFinishEdit = () => {
+    setSelectedMovieEdit(null);
+  };
+
+  const handleDeleteMovie = (movie) => {
+    setSelectedMovieDelete(movie);
+    setShowDeleteMessage(true);
+    console.log(`Deleting movie with ID: ${movie.idd}`);
+    // Send DELETE request to the server
+    fetch(`http://localhost:4000/delete-movie/${movie.idd}`, {
+      method: 'DELETE',
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Server response: ${data.message}`);
+        // Update the movies list in the state immediately
+        setMoviesUpdated(prevMovies => prevMovies.filter(m => m.idd !== movie.idd));
+        // Hide the delete message
+        setShowDeleteMessage(false);
+      })
+      .catch(error => console.error('Error deleting movie:', error));
+  };
+  const handleToggleAddMovie = () => {
+    setShowAddMovie((prevShowAddMovie) => !prevShowAddMovie);
+  };
+  const handleFormSubmit = (formData) => {
+    // Perform actions like sending the formData to the server
+    console.log('sending from admin to edit', formData);
+  };
+
+  const handleGoBack = () => {
+    setSelectedMovieEdit(null);
+    setSelectedMovieDelete(null);
+    setShowDeleteMessage(false);
+    setShowAddMovie(false);
   };
 
   return (
     <div>
       <h2>Admin Component</h2>
-
       <h3>Movies</h3>
-      <h4>Add Movie</h4>
-      <AddMovie/>
+      <button onClick={handleToggleAddMovie}>
+        {showAddMovie ? 'Hide Add Movie' : 'Show Add Movie'}
+      </button>
+      {showAddMovie && <AddMovie />}
       <ul>
         {movies.map((movie) => (
-          <li key={movie.id}>
-            {movie.title}
-            <button onClick={() => handleEditMovie(movie)}>Edit</button>
-            <button onClick={() => handleDeleteMovie(movie.id)}>Delete</button>
+          <li key={movie.idd}>
+            <RenderMovieAdmin4 movie={movie} />
+            {selectedMovieEdit === movie ? (
+              <div>
+                <EditMovie onSubmit={handleFormSubmit} initialData={movie} />
+                <button onClick={handleGoBack}>Go Back</button>
+              </div>
+            ) : (
+              <>
+                <button onClick={() => handleEditMovie(movie)}>Edit</button>
+                <button onClick={() => handleDeleteMovie(movie)}>Delete</button>
+              </>
+            )}
           </li>
         ))}
       </ul>
-
-      {selectedMovie && (
-        <div>
-          <h3>Edit Movie</h3>
-          {/* Add a form for editing the selected movie */}
-          {/* You can use the same form for adding a new movie */}
-        </div>
-      )}
-
       <h3>Comments</h3>
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment.id}>
-            {comment.text}
-            <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
+  
 };
 
 export default Admin;

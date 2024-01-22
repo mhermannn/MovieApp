@@ -1,20 +1,19 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const routes = require('./routes/routes');
 const app = express();
 
-app.use(
-    cors({
-        origin: 'http://127.0.0.1:3000',
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        credentials: true,
-        optionsSuccessStatus: 204,
-    })
-);
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+const corsOptions = {
+    origin: ['http://localhost:3000', 'http://localhost:3000/add-movie', 'http://localhost:3000/admin', 'http://localhost:3000/delete-movie/:id','http://localhost:3000/patch-movie/:id]', 'http://localhost:3000/delete-comment/:id', 'http://localhost:3000/movie-comment/:id', 'http://localhost:3000/movie-comment'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use('/', routes);
 
 const port = process.env.PORT || 4000;

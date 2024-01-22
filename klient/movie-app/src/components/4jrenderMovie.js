@@ -1,100 +1,91 @@
-import React, { useState} from 'react';
-import ReactPlayer from 'react-player';
-import RatingStars from 'react-rating-stars-component';
-import '../stylowanie/Render.css';
-export default function RenderMovie({
-  movie,
-  // comments, 
-  // setComments,
-  movieDetails,
-  selectedTrailer,
-  selectedGallery,
-  movieImages,
-  handleShowGallery,
-  handleShowTrailer,
-})
- {
-  const [comments, setComments] = useState([]);
+import React, { useState, useEffect } from 'react';
+
+export default function RenderMovie4({ movie }) {
+  const [komentarze, setKomentarze] = useState([]);
   const [newComment, setNewComment] = useState('');
-  const [userRating, setUserRating] = useState(0);
-  const handleRateMovie = (rating) => {
-    setUserRating(rating);
+
+  const fetchKomentarze = async () => {
+    try {
+      const response = await fetch(`http://localhost:4000/movie-comment/${movie.idd}`);
+      const data = await response.json();
+
+      if (Array.isArray(data)) {
+        setKomentarze(data);
+      } else {
+        console.error('Invalid response format for comments');
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
   };
-  const handleAddComment = () => {
-    setComments([...comments, { text: newComment, rating: userRating }]);
-    setNewComment('');
+
+  useEffect(() => {
+    fetchKomentarze();
+  }, []);
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    console.log("im in handlecomentRender")
+    try {
+      const response = await fetch(`http://localhost:4000/movie-comment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          movieId: movie.idd,
+          text: newComment,
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Comment posted successfully');
+        // Refresh comments after posting
+        fetchKomentarze();
+        // Clear the new comment input
+        setNewComment('');
+      } else {
+        console.error('Failed to post comment');
+      }
+    } catch (error) {
+      console.error('Error posting comment:', error);
+    }
   };
+
   return (
-      <li key={movie.id}>
-      <div className="nazwa">{movie.title}</div>
-      <div className='odnosnik'>
-        <a className="odnosnik_link" href={`https://www.themoviedb.org/movie/${movie.id}`} target="_blank" rel="noopener noreferrer">
-          Odnośnik do moviedb
-        </a>
+    <>
+      <div>
+        Tytuł: {movie.title} <br />
+        Opis: {movie.overview} <br />
+        Czas trwania: {movie.runtime} <br />
+        Data premiery: {movie.release_date} <br />
+        Budżet: {movie.budget} <br />
       </div>
-      <div className="multimedia">
-        <div className="zdjecie">
-          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`} alt="Movie Poster" />
-        </div>
-        <div className="bok">
-          <div className="dane">
-            <div>Reżyser: {movieDetails[movie.id]?.directors}</div>
-            <div>Aktorzy: {movieDetails[movie.id]?.actors.split(', ').slice(0, 5).join(', ')}</div>
-            <div>Średnia ocena filmu: {movie.vote_average}</div>
-            <div>Ilość ocen: {movie.vote_count}</div>
-            <div>Data wydania: {movie.release_date}</div>
-            <div>Gatunki: {movieDetails[movie.id]?.genres}</div>
-          </div>
-        </div>
+      <div>
+        <strong>Komentarze:</strong>
+        {komentarze.length > 0 ? (
+          <ul>
+            {komentarze.map((komentarz, index) => (
+              <li key={index}>{komentarz.text}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>Brak komentarzy.</p>
+        )}
       </div>
-      <div className="rating-section">
-        <h4>Oceń Film:</h4>
-        <RatingStars
-          count={5}
-          onChange={handleRateMovie}
-          size={24}
-          value={userRating}
-        />
+      <div>
+        <form onSubmit={handleCommentSubmit}>
+          <label>
+            Dodaj komentarz:
+            <input
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+          </label>
+          <button type="submit">Dodaj</button>
+        </form>
       </div>
-      <div className="comments-section">
-        <h4>Komentarze:</h4>
-        <ul>
-          {comments.map((comment, index) => (
-            <li key={index}>{comment}</li>
-          ))}
-        </ul>
-        <div>
-          <input
-            type="text"
-            placeholder="Add a comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <button onClick={handleAddComment}>Dodaj Komentarz</button>
-        </div>
-      </div>
-      
-      <div className="guziki">
-        <button className="galeria" onClick={() => handleShowGallery(movie.id)}>
-          {selectedGallery === movie.id ? 'Schowaj galerie' : 'Pokaż galerię'}
-        </button>
-        <button className="zwiastun" onClick={() => handleShowTrailer(movie.id)}>
-          {selectedTrailer === movie.id ? 'Schowaj zwiastun' : 'Pokaż zwiastun'}
-        </button>
-      </div>
-      <div className="dane">{movie.overview}</div>
-      {selectedTrailer === movie.id && (
-        <div className='trailer-video'>
-          <ReactPlayer url={movieDetails[movie.id]?.trailerUrl} controls width="300px" height="auto"/>
-        </div>
-      )}
-      {selectedGallery === movie.id && movieImages[movie.id] && (
-        <div className="galeria-section">
-          {movieImages[movie.id].map((image, index) => (
-            <img key={index} src={image} alt={`Movie Still ${index + 1}`} />
-          ))}
-        </div>
-      )}
-    </li>
+    </>
   );
 }

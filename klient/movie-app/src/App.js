@@ -1,7 +1,7 @@
 // Import BrowserRouter and Routes from react-router-dom
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 
-import React, { useState } from 'react';
+import React from 'react';
 import SearchMovie from './components/SearchMovie';
 import PopularMovies from './components/PopularMovies';
 import AddMovie from './components/AddMovie';
@@ -10,19 +10,17 @@ import Stats from './components/Stats';
 import './stylowanie/MainStyle.css';
 
 export default function App() {
-  const [showAdd, setShowAdd] = useState(false);
 
   return (
     <Router>
       <div className="App">
-        <nav>
-          <h1>Movie Database</h1>
-          {/* <div className="autor">Magdalena Hermann</div> */}
-          <Link to="/">Home</Link>
-          <Link to="/add-movie">Add Movie</Link>
-          <Link to="/admin">Admin Page</Link>
-          <Link to="/stats">Stats</Link>
-        </nav>
+      <nav>
+        <h1>Movie Database</h1>
+        <NavLink to="/" activeClassName="active">Home</NavLink>
+        <NavLink to="/add-movie" activeClassName="active">Add Movie</NavLink>
+        <NavLink to="/admin" activeClassName="active">Admin Page</NavLink>
+        <NavLink to="/stats" activeClassName="active">Stats</NavLink>
+      </nav>
         <main>
           <div className="search">
             <Routes>

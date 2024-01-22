@@ -1,5 +1,5 @@
 class Movie {
-    constructor({ id, title, poster_path, releaseYear, genres, actors, directors, images, overview, count, avg, amountOfRatings, isMine = false, comments, gallery, trailer, poster_path="" }) {
+    constructor({ id, title, poster_path, releaseYear, genres, actors, directors, images, overview, count, avg, amountOfRatings, isMine = false, comments, gallery, trailer}) {
         this.id = id;
         this.title = title;
         this.releaseYear = releaseYear;

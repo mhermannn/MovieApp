@@ -5,9 +5,9 @@ const AddMovie = () => {
   const [movieData, setMovieData] = useState({
     title: '',
     overview: '',
-    originalLanguage: '',
+    original_language: '',
     runtime: '',
-    releaseDate: '',
+    release_date: '',
     tagline: '',
     budget: '',
     director: '',
@@ -51,12 +51,30 @@ const AddMovie = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add logic to handle form submission (e.g., send data to the server)
-    console.log('Submitted Movie Data:', movieData);
-    // You can add API calls or state updates here to save the movie data
+    try {
+      const response = await fetch('http://localhost:4000/add-movie', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(movieData),
+        credentials: 'include',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to add the movie');
+      }
+  
+      // Handle success, maybe redirect or update state as needed
+      console.log('im in handlesubmit');
+    } catch (error) {
+      console.error('Error adding movie:', error.message);
+      // Handle error, display an error message or update state as needed
+    }
   };
+  
 
   return (
     <div>
@@ -74,7 +92,7 @@ const AddMovie = () => {
         <br />
         <label>
           Original Language:
-          <input type="text" name="originalLanguage" value={movieData.originalLanguage} onChange={handleChange} />
+          <input type="text" name="original_language" value={movieData.original_language} onChange={handleChange} />
         </label>
         <br />
         <label>
@@ -84,7 +102,7 @@ const AddMovie = () => {
         <br />
         <label>
           Release Date:
-          <input type="text" name="releaseDate" value={movieData.releaseDate} onChange={handleChange} />
+          <input type="date" name="release_date" value={movieData.release_date} onChange={handleChange} />
         </label>
         <br />
         <label>
@@ -122,6 +140,7 @@ const AddMovie = () => {
             Add Actor
           </button>
         </label>
+
         <br />
         <button type="submit">Add Movie</button>
       </form>

@@ -1,7 +1,7 @@
 const { getAllMoviesAndGenres4, getMovieDetails4, 
     addMovie4, ChangeMovieDetails4, DeleteComment4, 
     DeleteMovie4, TMDBratingSend, MovieRate4, PostComment4, 
-    GenSearch4, MovieSearch4, SortNew, SortOld } = require('../services/neo4jService');
+    GenSearch4, MovieSearch4, SortNew, SortOld, GetMine4, GetComment4 } = require('../services/neo4jService');
 
 const movieController = {
     getAllMoviesAndGenres: async (req, res) => {
@@ -27,8 +27,21 @@ const movieController = {
 
     addMovie: async (req, res) => {
         const body = req.body;
+        console.log('im in addmovie');
         try {
             const result = await addMovie4(body);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }, 
+
+    DeleteMovie: async (req, res) => {
+        const id = req.params.id;
+        console.log('im in deletemovie');
+        try {
+            const result = await DeleteMovie4(id);
             res.json(result);
         } catch (error) {
             console.error(error);
@@ -37,8 +50,9 @@ const movieController = {
     },
 
     ChangeMovie: async (req, res) => {
-        const id = req.params.movie.id;
+        const id = req.params.id;
         const body = req.body;
+        console.log('im in changemovie');
         try {
             const result = await ChangeMovieDetails4(id, body);
             res.json(result);
@@ -48,20 +62,9 @@ const movieController = {
         }
     },
 
-    DeleteMovie: async (req, res) => {
-        const id = req.params.id;
-        try {
-            const result = await DeleteMovie4(id);
-            res.json(result);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-    },
-    
-
     DeleteComment: async (req, res) => {
         const id = req.params.id;
+        console.log("im in deletecomment");
         try {
             const result = await DeleteComment4(id);
             res.json(result);
@@ -96,17 +99,27 @@ const movieController = {
     },
 
     CommentPost: async (req, res) => {
-        const id = req.params.id;
         const body = req.body;
+        console.log('im in postcomment');
         try {
-            const result = await PostComment4(id);
+            const result = await PostComment4(body);
             res.json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
+    CommentGet: async (req, res) => {
+        const id = req.params.id;
+        try {
+            console.log("im in commentget");
+            const result = await GetComment4(id);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
     GenSearchOld: async (req, res) => {
         const pattern = req.params.pattern;
         try {
@@ -167,6 +180,17 @@ const movieController = {
         const pattern = req.params.pattern;
         try {
             const result = await MovieSearch4(pattern);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+
+    GetMine: async (req, res) => {
+        console.log('im in GetMine');
+        try {
+            const result = await GetMine4();
             res.json(result);
         } catch (error) {
             console.error(error);

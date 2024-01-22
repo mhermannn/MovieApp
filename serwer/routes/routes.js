@@ -14,19 +14,19 @@ router.get('/genre-search/new/:pattern', movieController.GenSearchNew)
 router.get('/genre-search/old/:pattern', movieController.GenSearchOld)
 
 //comments
-router.post('/movie-comment/id', movieController.CommentPost)
-
+router.post('/movie-comment', movieController.CommentPost) //
+router.get('/movie-comment/:id', movieController.CommentGet) //
 //ratings
 router.post('/movie-rating/:id', movieController.MovieRating)
 router.post('/tmdb-rating/:id', movieController.TMDBrating)
 
 //add movie part
-router.post('/add-movie', movieController.addMovie);
+router.post('/add-movie', movieController.addMovie); //
 
 //admin part
-router.delete('/delete-movie/:id', movieController.DeleteMovie)
+router.get('/get-Mine', movieController.GetMine) //
+router.delete('/delete-movie/:id', movieController.DeleteMovie) //
 router.delete('/delete-comment/:id', movieController.DeleteComment)
-router.patch('/patch-movie/:id', movieController.ChangeMovie)
-router.post('/add-movie', movieController.addMovie)
+router.patch('/patch-movie/:id', movieController.ChangeMovie)//
 
 module.exports = router;
