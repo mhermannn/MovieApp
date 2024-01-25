@@ -40,9 +40,7 @@ export default function RenderMovie4({ movie }) {
 
       if (response.ok) {
         console.log('Comment posted successfully');
-        // Refresh comments after posting
         fetchKomentarze();
-        // Clear the new comment input
         setNewComment('');
       } else {
         console.error('Failed to post comment');

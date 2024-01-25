@@ -2,28 +2,33 @@ import React, { useState} from 'react';
 import ReactPlayer from 'react-player';
 import RatingStars from 'react-rating-stars-component';
 import '../stylowanie/Render.css';
-export default function RenderMovie({
-  movie,
-  // comments, 
-  // setComments,
-  movieDetails,
-  selectedTrailer,
-  selectedGallery,
-  movieImages,
-  handleShowGallery,
-  handleShowTrailer,
-})
- {
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
+export default function RenderMoviePopular({movie, movieDetails, selectedTrailer, selectedGallery, movieImages, handleShowGallery, handleShowTrailer,}) {
   const [userRating, setUserRating] = useState(0);
-  const handleRateMovie = (rating) => {
-    setUserRating(rating);
+  const handleRateMovie = async (rating) => {
+    try {
+      const Key = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNDdiOWY4YTljMzM4MmRjZjUyMjA1YTAzOGY4YTFmZCIsInN1YiI6IjY1OTZlMWZjZWQ5NmJjMDIxNmY3NWMwZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.787RWQjWc8Tnp3jWSuRt1u5lw5MZbF43E0AAvYPRl_k';
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/rating`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Key}`,
+        },
+        body: JSON.stringify({
+          value: rating,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log(`Successfully rated movie ${movie.title} with ${rating} stars`);
+        setUserRating(rating);
+      } else {
+        console.error(`Failed to rate movie ${movie.id}`);
+      }
+    } catch (error) {
+      console.error('Error rating movie:', error);
+    }
   };
-  const handleAddComment = () => {
-    setComments([...comments, { text: newComment, rating: userRating }]);
-    setNewComment('');
-  };
+  
   return (
       <li key={movie.id}>
       <div className="nazwa">{movie.title}</div>
@@ -51,7 +56,7 @@ export default function RenderMovie({
         <h4>Oceń Film:</h4>
         <RatingStars
           count={5}
-          onChange={handleRateMovie}
+          onChange={(newValue) => handleRateMovie(newValue)}
           size={24}
           value={userRating}
         />

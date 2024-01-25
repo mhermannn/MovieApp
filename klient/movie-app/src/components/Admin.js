@@ -6,14 +6,12 @@ import RenderMovieAdmin4 from './4ADrender';
 const Admin = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
-  const [selectedMovieDelete, setSelectedMovieDelete] = useState(null);
-  const [showDeleteMessage, setShowDeleteMessage] = useState(false);
   const [moviesUpdated, setMoviesUpdated] = useState(false);
   const [showAddMovie, setShowAddMovie] = useState(false);
 
   useEffect(() => {
     fetchMovies();
-  }, [moviesUpdated]);
+  }, []);
 
   const fetchMovies = async () => {
     try {
@@ -29,45 +27,43 @@ const Admin = () => {
 
   const handleEditMovie = (movie) => {
     setSelectedMovieEdit(movie);
-    setSelectedMovieDelete(null); 
-    setShowDeleteMessage(false); 
     setShowAddMovie(false);
   };
 
-  const handleFinishEdit = () => {
-    setSelectedMovieEdit(null);
+  const handleDeleteMovie = async (movie) => {
+    try {
+      console.log(`Deleting movie with ID: ${movie.idd}`);
+      const response = await fetch(`http://localhost:4000/delete-movie/${movie.idd}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+  
+      console.log(`Server response: ${data.message}`);
+      console.log('Before setMovies');
+      setMovies((prevmovies) => prevmovies.filter((m) => m.idd !== movie.idd));
+      console.log('After setMovies');
+    } catch (error) {
+      console.error('Error deleting movie:', error);
+    }
   };
-
-  const handleDeleteMovie = (movie) => {
-    setSelectedMovieDelete(movie);
-    setShowDeleteMessage(true);
-    console.log(`Deleting movie with ID: ${movie.idd}`);
-    // Send DELETE request to the server
-    fetch(`http://localhost:4000/delete-movie/${movie.idd}`, {
-      method: 'DELETE',
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(`Server response: ${data.message}`);
-        // Update the movies list in the state immediately
-        setMoviesUpdated(prevMovies => prevMovies.filter(m => m.idd !== movie.idd));
-        // Hide the delete message
-        setShowDeleteMessage(false);
-      })
-      .catch(error => console.error('Error deleting movie:', error));
-  };
+  
+  
+  
   const handleToggleAddMovie = () => {
     setShowAddMovie((prevShowAddMovie) => !prevShowAddMovie);
   };
   const handleFormSubmit = (formData) => {
-    // Perform actions like sending the formData to the server
     console.log('sending from admin to edit', formData);
+    fetchMovies();
   };
 
   const handleGoBack = () => {
     setSelectedMovieEdit(null);
-    setSelectedMovieDelete(null);
-    setShowDeleteMessage(false);
     setShowAddMovie(false);
   };
 
@@ -90,14 +86,13 @@ const Admin = () => {
               </div>
             ) : (
               <>
-                <button onClick={() => handleEditMovie(movie)}>Edit</button>
-                <button onClick={() => handleDeleteMovie(movie)}>Delete</button>
+                <button onClick={() => handleEditMovie(movie)}>Edit Movie Data</button>
+                <button onClick={() => handleDeleteMovie(movie)}>Delete Movie from database</button>
               </>
             )}
           </li>
         ))}
       </ul>
-      <h3>Comments</h3>
     </div>
   );
   

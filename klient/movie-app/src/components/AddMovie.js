@@ -1,4 +1,3 @@
-// AddMovie.js
 import React, { useState } from 'react';
 
 const AddMovie = () => {
@@ -17,7 +16,6 @@ const AddMovie = () => {
   const handleChange = (e, index) => {
     const { name, value } = e.target;
     if (name === 'actors') {
-      // Update the actors array based on the index
       const updatedActors = [...movieData.actors];
       updatedActors[index] = value;
       
@@ -26,7 +24,6 @@ const AddMovie = () => {
         actors: updatedActors
       });
     } else {
-      // Update other input fields
       setMovieData({
         ...movieData,
         [name]: value
@@ -34,17 +31,14 @@ const AddMovie = () => {
   };
 }
   const handleAddActor = () => {
-    // Add a new empty string to the actors array
     setMovieData({
       ...movieData,
       actors: [...movieData.actors, '']
     });
   };
   const handleRemoveActor = (index) => {
-    // Remove an actor from the array based on the index
     const updatedActors = [...movieData.actors];
     updatedActors.splice(index, 1);
-    
     setMovieData({
       ...movieData,
       actors: updatedActors
@@ -66,12 +60,9 @@ const AddMovie = () => {
       if (!response.ok) {
         throw new Error('Failed to add the movie');
       }
-  
-      // Handle success, maybe redirect or update state as needed
-      console.log('im in handlesubmit');
+      // console.log('im in handlesubmit');
     } catch (error) {
       console.error('Error adding movie:', error.message);
-      // Handle error, display an error message or update state as needed
     }
   };
   

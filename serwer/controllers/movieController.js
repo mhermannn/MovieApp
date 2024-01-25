@@ -1,33 +1,48 @@
-const { getAllMoviesAndGenres4, getMovieDetails4, 
-    addMovie4, ChangeMovieDetails4, DeleteComment4, 
-    DeleteMovie4, TMDBratingSend, MovieRate4, PostComment4, 
-    GenSearch4, MovieSearch4, SortNew, SortOld, GetMine4, GetComment4 } = require('../services/neo4jService');
+const { addMovie4, ChangeMovieDetails4, DeleteComment4, 
+    DeleteMovie4, PostComment4, GenSearch4, MovieSearch4,
+     SortNew, SortOld, GetMine4, GetComment4, ChangeComment4,
+      PostMovieRating4, GetMovieRatingCount4, GetMovieRatingAvg4,
+    GetActors4, GetGenres4, GetDirector4, GetMovie4 } = require('../services/neo4jService');
 
 const movieController = {
-    getAllMoviesAndGenres: async (req, res) => {
+    PostMovieRating: async (req, res) => {
+        const body = req.body;
+        const id = req.params.id;
+        // console.log('im in postrating');
         try {
-            const result = await getAllMoviesAndGenres4();
+            const result = await PostMovieRating4(id, body);
             res.json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
-    getMovieDetails: async (req, res) => {
-        const movieId = req.params.movieId;
+    GetMovieRatingCount: async (req, res) => {
+        const id = req.params.id;
         try {
-            const result = await getMovieDetails4(movieId);
+            // console.log("im in getmovieratingcount");
+            const result = await GetMovieRatingCount4(id);
             res.json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
+    GetMovieRatingAvg:async (req, res) => {
+        const id = req.params.id;
+        try {
+            // console.log("im in getmovieratingavg");
+            const result = await GetMovieRatingAvg4(id);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
     addMovie: async (req, res) => {
         const body = req.body;
-        console.log('im in addmovie');
+        // console.log(body);
+        // console.log('im in addmovie');
         try {
             const result = await addMovie4(body);
             res.json(result);
@@ -36,10 +51,9 @@ const movieController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }, 
-
     DeleteMovie: async (req, res) => {
         const id = req.params.id;
-        console.log('im in deletemovie');
+        // console.log('im in deletemovie');
         try {
             const result = await DeleteMovie4(id);
             res.json(result);
@@ -48,11 +62,10 @@ const movieController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
     ChangeMovie: async (req, res) => {
         const id = req.params.id;
         const body = req.body;
-        console.log('im in changemovie');
+        // console.log('im in changemovie');
         try {
             const result = await ChangeMovieDetails4(id, body);
             res.json(result);
@@ -61,10 +74,9 @@ const movieController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
     DeleteComment: async (req, res) => {
         const id = req.params.id;
-        console.log("im in deletecomment");
+        // console.log("im in deletecomment");
         try {
             const result = await DeleteComment4(id);
             res.json(result);
@@ -72,35 +84,22 @@ const movieController = {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    },
-
-    TMDBrating: async (req, res) => {
+    }, 
+    ChangeComment: async (req, res) => {
         const id = req.params.id;
         const body = req.body;
+        // console.log("im in changecomment");
         try {
-            const result = await TMDBratingSend(id,body);
+            const result = await ChangeComment4(id, body);
             res.json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    },
-
-    MovieRating: async (req, res) => {
-        const id = req.params.id;
-        const body = req.body;
-        try {
-            const result = await MovieRate4(id,body);
-            res.json(result);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-    },
-
+    }, 
     CommentPost: async (req, res) => {
         const body = req.body;
-        console.log('im in postcomment');
+        // console.log('im in postcomment');
         try {
             const result = await PostComment4(body);
             res.json(result);
@@ -112,8 +111,19 @@ const movieController = {
     CommentGet: async (req, res) => {
         const id = req.params.id;
         try {
-            console.log("im in commentget");
+            // console.log("im in commentget");
             const result = await GetComment4(id);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+    MovieGet: async (req, res) => {
+        const id = req.params.id;
+        try {
+            // console.log("im in movieget");
+            const result = await GetMovie4(id);
             res.json(result);
         } catch (error) {
             console.error(error);
@@ -122,8 +132,9 @@ const movieController = {
     },
     GenSearchOld: async (req, res) => {
         const pattern = req.params.pattern;
+        // console.log('im in gensearchold');
         try {
-            const result = await GenSearch4(pattern).then(res=> SortOld(res))
+            const result = await GenSearch4(pattern).then(sortedMovies => SortOld(sortedMovies))
             res.json(result);
         } catch (error) {
             console.error(error);
@@ -131,20 +142,20 @@ const movieController = {
         }
         
     },
-
     GenSearchNew: async (req, res) => {
         const pattern = req.params.pattern;
+        // console.log('im in gensearchnew');
         try {
-            const result = await GenSearch4(pattern).then(res=> SortNew(res))
+            const result = await GenSearch4(pattern).then(sortedMovies => SortNew(sortedMovies))
             res.json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
     GenSearch: async (req, res) => {
         const pattern = req.params.pattern;
+        // console.log('im in gensearch');
         try {
             const result = await GenSearch4(pattern);
             res.json(result);
@@ -153,31 +164,31 @@ const movieController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
     MovieSearchOld: async (req, res) => {
         const pattern = req.params.pattern;
+        // console.log('im in moviesearchold');
         try {
-            const result = await GenSearch4(pattern).then(res=> SortOld(res))
+            const result = await MovieSearch4(pattern).then(sortedMovies => SortOld(sortedMovies))
             res.json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
     MovieSearchNew: async (req, res) => {
         const pattern = req.params.pattern;
+        // console.log('im in moviesearchnew');
         try {
-            const result = await MovieSearch4(pattern).then(res=> SortNew(res))
+            const result = await MovieSearch4(pattern).then(sortedMovies => SortNew(sortedMovies))
             res.json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
     MovieSearch: async (req, res) => {
         const pattern = req.params.pattern;
+        // console.log('im in moviesearch');
         try {
             const result = await MovieSearch4(pattern);
             res.json(result);
@@ -186,9 +197,8 @@ const movieController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-
     GetMine: async (req, res) => {
-        console.log('im in GetMine');
+        // console.log('im in GetMine');
         try {
             const result = await GetMine4();
             res.json(result);
@@ -197,7 +207,39 @@ const movieController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-    
+    GetActors: async (req, res) => {
+        const id = req.params.id;
+        try {
+            // console.log("im in getactors");
+            const result = await GetActors4(id);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+    GetGenres: async (req, res) => {
+        const id = req.params.id;
+        try {
+            // console.log("im in getmovies");
+            const result = await GetGenres4(id);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+    GetDirector: async (req, res) => {
+        const id = req.params.id;
+        try {
+            // console.log("im in getdirector");
+            const result = await GetDirector4(id);
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
 };
 
 module.exports = movieController;

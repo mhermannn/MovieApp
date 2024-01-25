@@ -6,21 +6,17 @@ const Stats = () => {
   const [topDirectors, setTopDirectors] = useState([]);
 
   useEffect(() => {
-    // Fetch data for top actors, movies, and director when the component mounts
     fetchTopActors();
     fetchTopMovies();
-    fetchTopDirectors();
+    // fetchTopDirectors();
   }, []);
 
   const fetchTopActors = async () => {
     try {
-      // Fetch top actors from TMDb API
       const response = await fetch(
         `https://api.themoviedb.org/3/person/popular?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`
       );
       const data = await response.json();
-  
-      // Map the results to include profile image URLs
       const actorsWithImages = data.results.slice(0, 6).map(actor => {
         return {
           id: actor.id,
@@ -41,7 +37,6 @@ const Stats = () => {
 
   const fetchTopMovies = async () => {
     try {
-      // Fetch top movies from TMDb API
       const response = await fetch(
         `https://api.themoviedb.org/3/movie/popular?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`
       );
@@ -52,25 +47,25 @@ const Stats = () => {
     }
   };
 
-  const fetchTopDirectors = async () => {
-    try {
-      // Fetch popular persons from TMDb API with the job of 'Director'
-      const response = await fetch(
-        `https://api.themoviedb.org/3/person/popular?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`
-      );
-      const data = await response.json();
+  // const fetchTopDirectors = async () => {
+  //   try {
+  //     // Fetch popular persons from TMDb API with the job of 'Director'
+  //     const response = await fetch(
+  //       `https://api.themoviedb.org/3/person/popular?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`
+  //     );
+  //     const data = await response.json();
   
-      // // Filter persons with the job of 'Director'
-      // const directors = data.results.filter(person =>
-      //   person.known_for_department === 'Directing'
-      // );
+  //     // // Filter persons with the job of 'Director'
+  //     // const directors = data.results.filter(person =>
+  //     //   person.known_for_department === 'Directing'
+  //     // );
   
-      setTopDirectors(data.slice(0, 6));
-    } catch (error) {
-      console.error('Error fetching top directors:', error);
-      // setTopDirectors([]); // Set topDirectors to an empty array in case of an error
-    }
-  };
+  //     setTopDirectors(data.slice(0, 6));
+  //   } catch (error) {
+  //     console.error('Error fetching top directors:', error);
+  //     // setTopDirectors([]); // Set topDirectors to an empty array in case of an error
+  //   }
+  // };
   
 
   return (
@@ -113,12 +108,12 @@ const Stats = () => {
         ))}
       </ul>
 
-      <h3>Top 6 Directors</h3>
+      {/* <h3>Top 6 Directors</h3>
       <ul>
       {topDirectors.map((dir) => (
           <li key={dir.id}>{dir.name}</li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

@@ -1,8 +1,7 @@
-// Import BrowserRouter and Routes from react-router-dom
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 
 import React from 'react';
-import SearchMovie from './components/SearchMovie';
+import SearchMovie from './components/Search';
 import PopularMovies from './components/PopularMovies';
 import AddMovie from './components/AddMovie';
 import Admin from './components/Admin';

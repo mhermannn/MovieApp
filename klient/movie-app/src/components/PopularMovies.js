@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RenderMovie from './renderMovie';
+import RenderMoviePopular from './renderMovie';
 import '../stylowanie/PopularMovie.css';
 
 export default function PopularMovies() {
@@ -104,7 +104,7 @@ export default function PopularMovies() {
       <h2>Trending Movies</h2>
       <ul>
         {popular.map((movie) => (
-          <RenderMovie
+          <RenderMoviePopular
           key={movie.id}
           movie={movie}
           movieDetails={movieDetails}
