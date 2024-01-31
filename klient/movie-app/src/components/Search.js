@@ -72,7 +72,7 @@ const SearchMovie = () => {
       </div>
       <div className="znajdujemy">
         <ul>
-        {showSearch.map((movie) =>
+        {showSearch?.map((movie) =>
           movie.isMine ? (
             <RenderMovie4 key={movie.id} movie={movie} />
           ) : (

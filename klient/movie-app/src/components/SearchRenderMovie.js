@@ -10,114 +10,204 @@ export default function SearchRenderMovie({
   movieImages,
   handleShowGallery,
   handleShowTrailer,
-  handleRateMovie,
 }) {
-const [userRating, setUserRating] = useState(0);
-const [actors, setActors] = useState([]);
-const [genres, setGenres] = useState([]);
-const [director, setDirector] = useState([]);
+  const [userRating, setUserRating] = useState(0);
+  const [actors, setActors] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [director, setDirector] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [votavg, setVotavg] = useState(0);
+  const [votcount, setVotcount] = useState(0);
 
-const CorrectId = movie.isMine ? movie.idd : movie.id;
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [actorsData, directorData, genresData] = await Promise.all([
+          fetchActors(getMovieId(movie)),
+          fetchDirector(getMovieId(movie)),
+          fetchGenres(getMovieId(movie)),
+          getMovieRatings(movie)
+        ]);
+        setActors(actorsData);
+        setDirector(directorData);
+        setGenres(genresData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [movie]);
 
+  const getMovieId = (movie) => {
+    return movie.id.low !== 0 ? movie.id.low : movie.id.high;
+  };
 
+  const formatUrl = (movie) => {
+    // console.log(movie.trailers)
+    return `https://www.youtube.com/watch?v=${movie.trailers}`
+  };
+  
 
-useEffect(() => {
-    fetchActors(CorrectId);
-    fetchDirector(CorrectId);
-    fetchGenres(CorrectId);
-  }, [CorrectId]);
-
-const fetchActors = async (CorrectId) => {
-    try {
-      const response = await fetch(`/actors/${CorrectId}`);
-      const data = await response.json();
-      setActors(data.actors);
-    } catch (error) {
-      console.error('Error fetching actors:', error);
+  const fetchActors = async (CorrectId) => {
+    const response = await fetch(`/actors/${CorrectId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch actors');
     }
+    const data = await response.json();
+    // console.log("Actors data:", data); // Log the response data
+    return data || [];
   };
 
   const fetchGenres = async (CorrectId) => {
-    try {
-      const response = await fetch(`/genres/${CorrectId}`);
-      const data = await response.json();
-      setGenres(data.genres);
-    } catch (error) {
-      console.error('Error fetching genres:', error);
+    const response = await fetch(`/genres/${CorrectId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch genres');
     }
+    const data = await response.json();
+    return data || [];
   };
 
   const fetchDirector = async (CorrectId) => {
+    const response = await fetch(`/director/${CorrectId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch director');
+    }
+    const data = await response.json();
+    return data || [];
+  };
+
+  const getMovieRatings = async (movie) => {
     try {
-      const response = await fetch(`/director/${CorrectId}`);
-      const data = await response.json();
-      setDirector(data.genres);
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${getMovieId(movie)}?api_key=f47b9f8a9c3382dcf52205a038f8a1fd&append_to_response=videos`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const movieDetails = await response.json();
+      const { vote_average, vote_count } = movieDetails;
+      setVotavg(vote_average);
+      setVotcount(vote_count);
     } catch (error) {
-      console.error('Error fetching director:', error);
+      console.error('Error fetching movie ratings:', error);
     }
   };
-return (
-    <li key={CorrectId}>
+  
+
+  const handleRateMovie = async (rating) => {
+    try {
+      const Key = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNDdiOWY4YTljMzM4MmRjZjUyMjA1YTAzOGY4YTFmZCIsInN1YiI6IjY1OTZlMWZjZWQ5NmJjMDIxNmY3NWMwZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.787RWQjWc8Tnp3jWSuRt1u5lw5MZbF43E0AAvYPRl_k';
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${getMovieId(movie)}/rating`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Key}`,
+        },
+        body: JSON.stringify({
+          value: rating,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log(`Successfully rated movie ${movie.title} with ${rating} stars`);
+        setUserRating(rating);
+        // getMovieRatings(movie);
+      } else {
+        console.error(`Failed to rate movie ${getMovieId(movie)}`);
+      }
+    } catch (error) {
+      console.error('Error rating movie:', error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <li key={movie.id}>
       <div className="nazwa">{movie.title}</div>
       <div className='odnosnik'>
-        <a className="odnosnik_link" href={`https://www.themoviedb.org/movie/${movie.id}`} target="_blank" rel="noopener noreferrer">
-          Odnośnik do moviedb
+        <a className="odnosnik_link" href={`https://www.themoviedb.org/movie/${getMovieId(movie)}`} target="_blank" rel="noopener noreferrer">
+          Odnośnik do moviedb 
         </a>
       </div>
       <div className="multimedia">
         <div className="zdjecie">
           <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}?api_key=f47b9f8a9c3382dcf52205a038f8a1fd`} alt="Movie Poster" />
         </div>
-        <div className="bok">
-          <div className="dane">
-            {director.length > 1 ? (
-              <div>Reżyserzy: {director.join(', ')}</div>
-            ) : (
-              <div>Reżyser: {director[0]}</div>
-            )}
-            {actors.length > 1 ? (
-              <div>Aktorzy: {actors.slice(0, 5).join(', ')}</div>
-            ) : (
-              <div>Aktor: {actors[0]}</div>
-            )}
-            <div>Średnia ocena filmu: {movie.vote_average}</div>
-            <div>Ilość ocen: {movie.vote_count}</div>
-            <div>Data wydania: {movie.release_date}</div>
-            {genres.length > 1 ? (
-              <div>Gatunki: {genres.join(', ')}</div>
-            ) : (
-              <div>Gatunek: {genres[0]}</div>
-            )}
-          </div>
+      <div className="bok">
+        <div className="dane">
+          {/* Director */}
+          {director.length > 0 ? (
+            <>
+              {director.length > 1 ? (
+                <div>Reżyserzy: {director.map(dir => dir.name).join(', ')}</div>
+              ) : (
+                <div>Reżyser: {director[0].name}</div>
+              )}
+            </>
+          ) : (
+            <div>Brak informacji o reżyserze</div>
+          )}
+          {/* Actors */}
+          {actors.length > 0 ? (
+            <>
+              {actors.length > 1 ? (
+                <div>Aktorzy: {actors.map(actor => actor.name).join(', ')}</div>
+              ) : (
+                <div>Aktor: {actors[0].name}</div>
+              )}
+            </>
+          ) : (
+            <div>Brak informacji o aktorach</div>
+          )}
+          {/* Genres */}
+          {genres.length > 0 ? (
+            <>
+              {genres.length > 1 ? (
+                <div>Gatunki: {genres.map(genre => genre.name).join(', ')}</div>
+              ) : (
+                <div>Gatunek: {genres[0].name}</div>
+              )}
+            </>
+          ) : (
+            <div>Brak informacji o gatunkach</div>
+          )}
+          <div>Średnia ocena filmu: {votavg}</div>
+          <div>Ilość ocen: {votcount}</div>
+          <div>Data wydania: {movie.release_date}</div>
         </div>
+      </div>
       </div>
       <div className="rating-section">
         <h4>Oceń Film:</h4>
         <RatingStars
           count={5}
-          onChange={(newValue) => handleRateMovie(movie.id, newValue)}
+          onChange={(newValue) => handleRateMovie( newValue)}
           size={24}
           value={userRating}
         />
       </div>
       <div className="guziki">
-        <button className="galeria" onClick={() => handleShowGallery(movie.id)}>
-          {selectedGallery === movie.id ? 'Schowaj galerie' : 'Pokaż galerię'}
+        <button className="galeria" onClick={() => handleShowGallery(getMovieId(movie))}>
+          {selectedGallery ===getMovieId(movie) ? 'Schowaj galerie' : 'Pokaż galerię'}
         </button>
-        <button className="zwiastun" onClick={() => handleShowTrailer(movie.id)}>
-          {selectedTrailer === movie.id ? 'Schowaj zwiastun' : 'Pokaż zwiastun'}
+        <button className="zwiastun" onClick={() => handleShowTrailer(getMovieId(movie))}>
+          {selectedTrailer === getMovieId(movie) ? 'Schowaj zwiastun' : 'Pokaż zwiastun'}
         </button>
       </div>
       <div className="dane">{movie.overview}</div>
-      {selectedTrailer === movie.id && (
+      {selectedTrailer === getMovieId(movie) && (
         <div className='trailer-video'>
-          <ReactPlayer url={movie.trailerUrl} controls width="300px" height="auto"/>
+          <ReactPlayer url={formatUrl(movie)} controls width="300px" height="auto"/>
         </div>
       )}
-      {selectedGallery === movie.id && movieImages[movie.id] && (
+      {selectedGallery === getMovieId(movie) && (
         <div className="galeria-section">
-          {movieImages[movie.id].map((image, index) => (
-            <img key={index} src={image} alt={`Movie Still ${index + 1}`} />
+          {(movie.images).map((image, index) => (
+            <img key={index} src={`https://image.tmdb.org/t/p/w500/${image}`} alt={`Movie Still ${index + 1}`} />
           ))}
         </div>
       )}
