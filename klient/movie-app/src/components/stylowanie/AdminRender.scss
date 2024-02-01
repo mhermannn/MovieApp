@@ -1,0 +1,94 @@
+.adrender {
+    margin-bottom: 20px;
+    .compart {
+        // background-color:#2980b9;
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 5px;
+  
+      .kom {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        font-size: large;
+        margin-bottom: 10px;
+  
+  
+        button {
+          margin-left: 5px;
+          padding: 5px 10px;
+          background-color: #e74c3c; /* Red color for delete and edit buttons */
+          color: #fff;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          &:nth-child(2){
+            background-color: #f39c12;
+            &:hover {
+                background-color: #e67e22; /* Darker shade for hover effect */
+              }
+
+          }
+  
+          &:hover {
+            background-color: #c0392b; /* Darker shade for hover effect */
+          }
+        }
+      }
+  
+      p {
+        margin-top: 10px;
+        color: #7f8c8d; /* Gray color for empty comments message */
+      }
+  
+      form {
+        display: flex;
+        align-items: center;
+  
+        label {
+          margin-right: 10px;
+        }
+  
+        input[type='text'] {
+          flex: 1;
+          padding: 5px;
+        }
+  
+        button[type='submit'] {
+          padding: 5px 10px;
+          background-color: #f39c12; /* Green color for add comment button */
+          color: #fff;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+  
+          &:hover {
+            background-color: #e67e22; /* Darker shade for hover effect */
+          }
+        }
+      }
+    }
+  }
+  ul{
+    margin:-15px;
+    padding: 0;
+  }
+  li{
+    margin:0;
+    padding: 0;
+  }
+  .widok{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    &:first-child{
+        font-weight: 400;
+    }
+    .guz{
+        margin-top: 10px;
+        display: flex;
+    }
+
+  }

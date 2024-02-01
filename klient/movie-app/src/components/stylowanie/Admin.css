@@ -1,0 +1,52 @@
+.admin {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.admin h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #f39c12; /* Consistent with previous suggestions */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Enhanced text shadow */
+}
+.admin h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #2c3e50; /* Subdued text color */
+}
+.admin button {
+  padding: 6px 12px;
+  font-size: 16px;
+  background-color: #f39c12; /* Button color consistent with the theme */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5px;
+}
+.admin button:hover {
+  background-color: #e67e22; /* Darker shade on hover */
+}
+.admin .movie-list {
+  list-style: none;
+  padding: 0;
+}
+.admin .movie-list li {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+}
+.admin .movie-list li .edit-form {
+  margin-top: 20px;
+}
+.admin .movie-list li .edit-form button {
+  margin-top: 10px;
+}
+.admin .add-movie {
+  margin-top: 20px;
+}
+.admin .add-movie button {
+  padding: 12px 24px;
+}/*# sourceMappingURL=Admin.css.map */

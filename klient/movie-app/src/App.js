@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 
 import React from 'react';
-import SearchMovie from './components/Search';
-import PopularMovies from './components/PopularMovies';
-import AddMovie from './components/AddMovie';
-import Admin from './components/Admin';
-import Stats from './components/Stats';
-import './stylowanie/MainStyle.css';
+import SearchMovie from './components/site-parts/Search';
+import PopularMovies from './components/site-parts/PopularMovies';
+import AddMovie from './components/site-parts/AddMovie';
+import Admin from './components/site-parts/Admin';
+import Stats from './components/site-parts/Stats';
+import './components/stylowanie/MainStyle.css'
 
 export default function App() {
 

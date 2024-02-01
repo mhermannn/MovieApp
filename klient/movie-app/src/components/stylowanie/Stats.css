@@ -1,0 +1,52 @@
+.Stats {
+  margin: auto;
+  max-width: 1200px;
+  padding: 20px;
+}
+.Stats h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.Stats h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.Stats ul {
+  list-style: none;
+  padding: 0;
+}
+.Stats ul li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+.Stats ul li a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+.Stats ul li a img {
+  width: 200px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+.Stats ul li a img:hover {
+  transform: scale(1.1);
+}
+.Stats ul li a:hover::after {
+  content: attr(data-name);
+  display: block;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1;
+  font-size: 16px;
+  font-weight: bold;
+}/*# sourceMappingURL=Stats.css.map */

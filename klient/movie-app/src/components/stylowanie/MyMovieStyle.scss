@@ -1,0 +1,192 @@
+    .komentarze {
+        margin-top: 10px;
+        ul{
+            li {
+                width: 85%;
+                margin-bottom: 10px;
+                padding: 8px;
+                border: 1px solid #f39c12;
+                border-radius: 20px;
+                background-color: #f5f3ed;
+                margin-top: 20px;
+                margin-left: -50px;
+                }
+        }
+        
+    } 
+    .dod{
+        form{
+            display: flex;
+            flex-direction: row;
+            label{
+                margin: auto;
+                margin-left: -5px;
+                input{
+                    max-width: 40vw;
+                    padding: 15px;
+                    padding-right: 30px;
+                    border-radius: 18px;
+                }
+            }
+            button{
+                margin: auto;
+                padding: 10px;
+                border-radius: 10px;
+                color: #ece9e1;
+                background-color: #2c3e50;
+                &:hover {
+                  background-color: #324e6a;
+                }
+            }
+        }
+    }
+    ul {
+      list-style: none;
+      display: grid;
+      max-width: 1050px;
+      margin: 0 auto;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      width: 100%;
+  
+      li {
+        width: 85%;
+        margin-bottom: 10px;
+        max-width: 60vw;
+        padding: 15px;
+        border: 1px solid #4f323b;
+        border-radius: 5px;
+        background-color: #ece9e1;
+  
+        &:first-child,
+        &:nth-child(2),
+        &:nth-child(3) {
+          margin-top: 20px;
+        }
+  
+        .nazwa {
+          font-size: 1.2em;
+          font-weight: bold;
+        }
+  
+        .odnosnik {
+          margin-top: 2px;
+        }
+  
+        .odnosnik_link {
+          color: #4f323b;
+          text-decoration: none;
+          transition: color 0.3s;
+  
+          &:hover {
+            color: #f39c12;
+          }
+        }
+  
+        .multimedia {
+          display: flex;
+          align-items: center;
+          margin-top: 5px;
+  
+          .zdjecie {
+            margin-right: 15px;
+  
+            img {
+              max-width: 100px;
+              height: auto;
+              border-radius: 5px;
+            }
+          }
+  
+          .bok {
+            .dane {
+              list-style: none;
+              padding: 0;
+            }
+          }
+        }
+  
+        .guziki {
+          margin-top: 15px;
+          display: flex;
+          justify-content: center;
+  
+          button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #4f323b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+  
+            &:hover {
+              background-color: #f39c12;
+            }
+          }
+        }
+  
+        .trailer-video {
+          margin-top: 15px;
+        }
+  
+        .dane {
+          margin-top: 15px;
+          font-size: 0.9em;
+          max-width: 60vw;
+        }
+  
+        .galeria-section {
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 15px;
+  
+          img {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            max-width: 130px;
+            height: auto;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+.rating-section{
+  h4{
+    margin-bottom: 0px;
+  }
+}
+    @media (max-width: 1050px) {
+      ul {
+        padding: 0;
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+      }
+  
+      li {
+        width: 100%;
+        margin-left: 15vw;
+  
+        &:first-child {
+          margin-top: 15px;
+        }
+      }
+      .komentarze {
+        ul{
+            li {
+                width: 85%;
+                margin-bottom: 10px;
+                max-width: 60vw;
+                padding: 15px;
+                border: 1px solid #4f323b;
+                border-radius: 20px;
+                background-color: #ece9e1;
+                margin-top: 20px;
+                margin-left: 8px;
+                background-color: #f5f3ed;
+                }
+        }
+        
+    }
+    }
+  

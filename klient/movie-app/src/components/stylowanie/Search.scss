@@ -1,5 +1,5 @@
 .szukamy {
-    background-color: #ea9085;
+    // background-color: #ea9085;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,7 +19,7 @@
     
       &:focus {
         outline: none;
-        border-color: #4f323b;
+        border-color: #f39c12;
       }
     }
     form{
@@ -32,7 +32,7 @@
           border-radius: 5px;
           flex-grow: 1;
           margin: auto 0;
-          background-color:#4f323b;
+          background-color:#f39c12;
           color:#ccc;
         }
       }

@@ -1,0 +1,65 @@
+// Stats.scss
+
+.Stats {
+    margin: auto;
+    max-width: 1200px; // Adjust the maximum width to your preference
+    padding: 20px; // Add some padding for better spacing
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  
+    h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+    
+      li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-right: 20px;
+    
+        a {
+          display: block;
+          text-decoration: none;
+          color: inherit;
+          position: relative; // Add relative positioning for hover effect
+    
+          img {
+            width: 200px;
+            height: auto;
+            transition: transform 0.3s ease; // Add transition for smoother hover effect
+            
+            &:hover {
+              transform: scale(1.1); // Zoom effect on hover
+            }
+          }
+    
+          // Display the data-name attribute on hover
+          &:hover::after {
+            content: attr(data-name);
+            display: block;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 1;
+            font-size: 16px; // Adjust font size
+            font-weight: bold; // Make text bold
+          }
+        }
+      }
+    }
+  }
+  

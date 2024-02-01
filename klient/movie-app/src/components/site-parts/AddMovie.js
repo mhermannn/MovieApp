@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../stylowanie/AddMovie.css'
 
 const AddMovie = () => {
   const [movieData, setMovieData] = useState({
@@ -68,7 +69,7 @@ const AddMovie = () => {
   
 
   return (
-    <div>
+    <div className='addmovie'>
       <h2>Add Movie</h2>
       <form onSubmit={handleSubmit}>
         <label>

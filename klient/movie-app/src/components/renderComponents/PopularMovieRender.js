@@ -43,15 +43,16 @@ export default function RenderMoviePopular({movie, movieDetails, selectedTrailer
         </div>
         <div className="bok">
           <div className="dane">
-            <div>Reżyser: {movieDetails[movie.id]?.directors}</div>
-            <div>Aktorzy: {movieDetails[movie.id]?.actors.split(', ').slice(0, 5).join(', ')}</div>
-            <div>Średnia ocena filmu: {movie.vote_average}</div>
-            <div>Ilość ocen: {movie.vote_count}</div>
-            <div>Data wydania: {movie.release_date}</div>
-            <div>Gatunki: {movieDetails[movie.id]?.genres}</div>
+            <div><strong>Reżyser:</strong> {movieDetails[movie.id]?.directors}</div> 
+            <div><strong>Aktorzy:</strong> {movieDetails[movie.id]?.actors.split(', ').slice(0, 5).join(', ')}</div>
+            <div><strong>Średnia ocena filmu:</strong> {movie.vote_average}</div>
+            <div><strong>Ilość ocen:</strong> {movie.vote_count}</div>
+            <div><strong>Data wydania:</strong> {movie.release_date}</div>
+            <div><strong>Gatunki:</strong> {movieDetails[movie.id]?.genres}</div>
           </div>
         </div>
       </div>
+      <div className='next'>
       <div className="rating-section">
         <h4>Oceń Film:</h4>
         <RatingStars
@@ -59,6 +60,7 @@ export default function RenderMoviePopular({movie, movieDetails, selectedTrailer
           onChange={(newValue) => handleRateMovie(newValue)}
           size={24}
           value={userRating}
+          activeColor="#f39c12"
         />
       </div>
       <div className="guziki">
@@ -69,6 +71,8 @@ export default function RenderMoviePopular({movie, movieDetails, selectedTrailer
           {selectedTrailer === movie.id ? 'Schowaj zwiastun' : 'Pokaż zwiastun'}
         </button>
       </div>
+      </div>
+      
       <div className="dane">{movie.overview}</div>
       {selectedTrailer === movie.id && (
         <div className='trailer-video'>

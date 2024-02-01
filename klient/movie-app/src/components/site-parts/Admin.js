@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import AddMovie from './AddMovie';
 import EditMovie from './EditMovie';
-import RenderMovieAdmin4 from './4ADrender';
+import RenderMovieAdmin4 from '../renderComponents/AdminMovieRender';
+import '../stylowanie/Admin.css'
 
 const Admin = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
-  const [moviesUpdated, setMoviesUpdated] = useState(false);
   const [showAddMovie, setShowAddMovie] = useState(false);
 
   useEffect(() => {
@@ -68,13 +68,16 @@ const Admin = () => {
   };
 
   return (
-    <div>
+    <div className='admin'>
       <h2>Admin Component</h2>
       <h3>Movies</h3>
-      <button onClick={handleToggleAddMovie}>
-        {showAddMovie ? 'Hide Add Movie' : 'Show Add Movie'}
-      </button>
-      {showAddMovie && <AddMovie />}
+      <div className='add-movie'>
+        <button onClick={handleToggleAddMovie}>
+          {showAddMovie ? 'Hide Add Movie' : 'Show Add Movie'}
+        </button>
+        {showAddMovie && <AddMovie />}
+      </div>
+      
       <ul>
         {movies.map((movie) => (
           <li key={movie.idd}>
@@ -85,10 +88,10 @@ const Admin = () => {
                 <button onClick={handleGoBack}>Go Back</button>
               </div>
             ) : (
-              <>
+              <div className='g'>
+                <button onClick={() => handleDeleteMovie(movie)}>Delete Movie </button>
                 <button onClick={() => handleEditMovie(movie)}>Edit Movie Data</button>
-                <button onClick={() => handleDeleteMovie(movie)}>Delete Movie from database</button>
-              </>
+              </div>
             )}
           </li>
         ))}

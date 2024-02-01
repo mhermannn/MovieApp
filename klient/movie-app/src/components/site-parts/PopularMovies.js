@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RenderMoviePopular from './renderMovie';
+import RenderMoviePopular from '../renderComponents/PopularMovieRender';
 import '../stylowanie/PopularMovie.css';
 
 export default function PopularMovies() {

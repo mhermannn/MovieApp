@@ -1,0 +1,104 @@
+ul {
+  list-style: none;
+  display: grid;
+  max-width: 1050px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  width: 100%;
+}
+ul li {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #2c3e50; /* Updated border color */
+  border-radius: 5px;
+  background-color: #f5f5f5; /* Updated background color */
+  position: relative;
+}
+ul li:first-child {
+  margin-top: 20px;
+}
+ul li .nazwa {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+ul li .multimedia {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+ul li .multimedia .zdjecie {
+  margin-right: 15px;
+}
+ul li .multimedia .zdjecie img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
+ul li .multimedia .bok .dane {
+  list-style: none;
+  padding: 0;
+}
+ul li .multimedia .bok .dane div {
+  margin-bottom: 5px;
+}
+ul li .next {
+  display: flex;
+  margin-top: 0;
+}
+ul li .next .rating-section h4 {
+  margin-bottom: 2px;
+}
+ul li .guziki {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+ul li .guziki button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #2c3e50; /* Updated button background color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+ul li .guziki button:hover {
+  background-color: #34495e; /* Darker shade on hover */
+}
+ul li .trailer-video {
+  margin-top: 15px;
+  max-width: 100%;
+}
+ul li .dane {
+  margin-top: 15px;
+  font-size: 0.9em;
+  max-width: 100%;
+}
+ul li .galeria-section {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+ul li .galeria-section img {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  max-width: 130px;
+  height: auto;
+  border-radius: 5px;
+}
+
+@media (max-width: 1050px) {
+  ul {
+    padding: 0;
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+  li {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+}/*# sourceMappingURL=Render.css.map */

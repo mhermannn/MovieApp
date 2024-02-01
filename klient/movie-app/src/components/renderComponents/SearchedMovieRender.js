@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import RatingStars from 'react-rating-stars-component';
 import '../stylowanie/Render.css';
-
+ 
 export default function SearchRenderMovie({
   movie,
   selectedTrailer,
   selectedGallery,
-  movieImages,
   handleShowGallery,
   handleShowTrailer,
 }) {
@@ -143,9 +142,9 @@ export default function SearchRenderMovie({
           {director.length > 0 ? (
             <>
               {director.length > 1 ? (
-                <div>Reżyserzy: {director.map(dir => dir.name).join(', ')}</div>
+                <div> <strong>Reżyserzy:</strong> {director.map(dir => dir.name).join(', ')}</div>
               ) : (
-                <div>Reżyser: {director[0].name}</div>
+                <div><strong>Reżyser:</strong> {director[0].name}</div>
               )}
             </>
           ) : (
@@ -155,9 +154,9 @@ export default function SearchRenderMovie({
           {actors.length > 0 ? (
             <>
               {actors.length > 1 ? (
-                <div>Aktorzy: {actors.map(actor => actor.name).join(', ')}</div>
+                <div><strong>Aktorzy:</strong> {actors.map(actor => actor.name).join(', ')}</div>
               ) : (
-                <div>Aktor: {actors[0].name}</div>
+                <div><strong>Aktor:</strong> {actors[0].name}</div>
               )}
             </>
           ) : (
@@ -167,26 +166,28 @@ export default function SearchRenderMovie({
           {genres.length > 0 ? (
             <>
               {genres.length > 1 ? (
-                <div>Gatunki: {genres.map(genre => genre.name).join(', ')}</div>
+                <div><strong>Gatunki:</strong> {genres.map(genre => genre.name).join(', ')}</div>
               ) : (
-                <div>Gatunek: {genres[0].name}</div>
+                <div><strong>Gatunek:</strong> {genres[0].name}</div>
               )}
             </>
           ) : (
             <div>Brak informacji o gatunkach</div>
           )}
-          <div>Średnia ocena filmu: {votavg}</div>
-          <div>Ilość ocen: {votcount}</div>
-          <div>Data wydania: {movie.release_date}</div>
+          <div><strong>Średnia ocena filmu:</strong> {votavg}</div>
+          <div><strong>Ilość ocen:</strong> {votcount}</div>
+          <div><strong>Data wydania:</strong> {movie.release_date}</div>
         </div>
       </div>
       </div>
+      <div className='next'>
       <div className="rating-section">
         <h4>Oceń Film:</h4>
         <RatingStars
           count={5}
           onChange={(newValue) => handleRateMovie( newValue)}
           size={24}
+          activeColor="#f39c12"
           value={userRating}
         />
       </div>
@@ -198,6 +199,8 @@ export default function SearchRenderMovie({
           {selectedTrailer === getMovieId(movie) ? 'Schowaj zwiastun' : 'Pokaż zwiastun'}
         </button>
       </div>
+      </div>
+      
       <div className="dane">{movie.overview}</div>
       {selectedTrailer === getMovieId(movie) && (
         <div className='trailer-video'>

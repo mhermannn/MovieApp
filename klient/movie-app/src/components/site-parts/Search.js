@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import SearchRenderMovie from './SearchRenderMovie'; 
-import RenderMovie4 from './4jrenderMovie';
-
+import SearchRenderMovie from '../renderComponents/SearchedMovieRender'; 
+import RenderMovie4 from '../renderComponents/MyMovieRender';
+import '../stylowanie/SearchBar.css'
+ 
 const SearchMovie = () => {
   const [searchText, setSearchText] = useState('');
   const [selectedList1, setSelectedList1] = useState('default');
