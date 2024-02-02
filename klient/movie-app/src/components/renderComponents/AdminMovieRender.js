@@ -156,7 +156,6 @@ export default function RenderMovieAdmin4({ movie }) {
       <div>
         <strong>Budżet:</strong> {movie.budget} <br />
       </div>
-      <div><strong>Tagline:</strong> {movie.tagline}</div>
 
     </div>
     <div className='compart'>
