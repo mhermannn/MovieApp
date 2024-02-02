@@ -1,17 +1,9 @@
-// Stats.scss
-
 .Stats {
     margin: auto;
-    max-width: 1200px; // Adjust the maximum width to your preference
-    padding: 20px; // Add some padding for better spacing
-    
+    max-width: 1200px; 
+    padding: 20px; 
     h2 {
       font-size: 24px;
-      margin-bottom: 10px;
-    }
-  
-    h3 {
-      font-size: 20px;
       margin-bottom: 10px;
     }
     
@@ -30,19 +22,18 @@
           display: block;
           text-decoration: none;
           color: inherit;
-          position: relative; // Add relative positioning for hover effect
+          position: relative; 
     
           img {
             width: 200px;
             height: auto;
-            transition: transform 0.3s ease; // Add transition for smoother hover effect
+            transition: transform 0.3s ease; 
             
             &:hover {
-              transform: scale(1.1); // Zoom effect on hover
+              transform: scale(1.1); 
             }
           }
     
-          // Display the data-name attribute on hover
           &:hover::after {
             content: attr(data-name);
             display: block;
@@ -55,11 +46,10 @@
             right: 0;
             text-align: center;
             z-index: 1;
-            font-size: 16px; // Adjust font size
-            font-weight: bold; // Make text bold
+            font-size: 16px; 
+            font-weight: bold; 
           }
         }
       }
     }
   }
-  

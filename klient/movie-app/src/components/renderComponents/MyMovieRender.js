@@ -161,6 +161,7 @@ export default function RenderMovie4({ movie }) {
             <div><strong>Data wydania:</strong> {movie.release_date}</div>
             <div><strong>Czas trwania:</strong> {movie.runtime}</div>
             <div><strong>Budżet:</strong> {movie.budget}</div>
+            <div><strong>Tagline:</strong> {movie.tagline}</div>
             
           </div>
         </div>

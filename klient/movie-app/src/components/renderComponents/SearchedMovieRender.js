@@ -138,7 +138,6 @@ export default function SearchRenderMovie({
         </div>
       <div className="bok">
         <div className="dane">
-          {/* Director */}
           {director.length > 0 ? (
             <>
               {director.length > 1 ? (
@@ -150,7 +149,6 @@ export default function SearchRenderMovie({
           ) : (
             <div>Brak informacji o reżyserze</div>
           )}
-          {/* Actors */}
           {actors.length > 0 ? (
             <>
               {actors.length > 1 ? (
@@ -162,7 +160,6 @@ export default function SearchRenderMovie({
           ) : (
             <div>Brak informacji o aktorach</div>
           )}
-          {/* Genres */}
           {genres.length > 0 ? (
             <>
               {genres.length > 1 ? (

@@ -1,49 +1,51 @@
-import React, { useState } from 'react';
-import '../stylowanie/AddMovie.css'
+import React, { useReducer } from 'react';
+import '../stylowanie/AddMovie.css';
+
+const initialState = {
+  title: '',
+  overview: '',
+  original_language: '',
+  runtime: '',
+  release_date: '',
+  tagline: '',
+  budget: '',
+  director: '',
+  actors: [''],
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_FIELD':
+      return { ...state, [action.field]: action.value };
+    case 'ADD_ACTOR':
+      return { ...state, actors: [...state.actors, ''] };
+    case 'REMOVE_ACTOR':
+      const updatedActors = [...state.actors];
+      updatedActors.splice(action.index, 1);
+      return { ...state, actors: updatedActors };
+    default:
+      return state;
+  }
+};
 
 const AddMovie = () => {
-  const [movieData, setMovieData] = useState({
-    title: '',
-    overview: '',
-    original_language: '',
-    runtime: '',
-    release_date: '',
-    tagline: '',
-    budget: '',
-    director: '',
-    actors: ['']
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
     if (name === 'actors') {
-      const updatedActors = [...movieData.actors];
-      updatedActors[index] = value;
-      
-      setMovieData({
-        ...movieData,
-        actors: updatedActors
-      });
+      dispatch({ type: 'SET_FIELD', field: name, value: state.actors.map((actor, i) => (i === index ? value : actor)) });
     } else {
-      setMovieData({
-        ...movieData,
-        [name]: value
-      });
+      dispatch({ type: 'SET_FIELD', field: name, value });
+    }
   };
-}
+
   const handleAddActor = () => {
-    setMovieData({
-      ...movieData,
-      actors: [...movieData.actors, '']
-    });
+    dispatch({ type: 'ADD_ACTOR' });
   };
+
   const handleRemoveActor = (index) => {
-    const updatedActors = [...movieData.actors];
-    updatedActors.splice(index, 1);
-    setMovieData({
-      ...movieData,
-      actors: updatedActors
-    });
+    dispatch({ type: 'REMOVE_ACTOR', index });
   };
 
   const handleSubmit = async (e) => {
@@ -54,19 +56,17 @@ const AddMovie = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(movieData),
+        body: JSON.stringify(state),
         credentials: 'include',
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to add the movie');
       }
-      // console.log('im in handlesubmit');
     } catch (error) {
       console.error('Error adding movie:', error.message);
     }
   };
-  
 
   return (
     <div className='addmovie'>
@@ -74,52 +74,54 @@ const AddMovie = () => {
       <form onSubmit={handleSubmit}>
         <label>
           Title:
-          <input type="text" name="title" value={movieData.title} onChange={handleChange} />
+          <input type="text" name="title" value={state.title} onChange={(e) => handleChange(e)} required />
         </label>
         <br />
         <label>
           Overview:
-          <textarea name="overview" value={movieData.overview} onChange={handleChange} />
+          <textarea name="overview" value={state.overview} onChange={(e) => handleChange(e)} required />
         </label>
         <br />
         <label>
           Original Language:
-          <input type="text" name="original_language" value={movieData.original_language} onChange={handleChange} />
+          <input type="text" name="original_language" value={state.original_language} onChange={(e) => handleChange(e)} required />
         </label>
         <br />
         <label>
           Runtime:
-          <input type="text" name="runtime" value={movieData.runtime} onChange={handleChange} />
+          <input type="text" name="runtime" value={state.runtime} onChange={(e) => handleChange(e)} required />
         </label>
         <br />
         <label>
           Release Date:
-          <input type="date" name="release_date" value={movieData.release_date} onChange={handleChange} />
+          <input type="date" name="release_date" value={state.release_date} onChange={(e) => handleChange(e)} required />
         </label>
         <br />
         <label>
           Tagline:
-          <input type="text" name="tagline" value={movieData.tagline} onChange={handleChange} />
+          <input type="text" name="tagline" value={state.tagline} onChange={(e) => handleChange(e)} required />
         </label>
         <br />
         <label>
           Budget:
-          <input type="text" name="budget" value={movieData.budget} onChange={handleChange} />
+          <input type="text" name="budget" value={state.budget} onChange={(e) => handleChange(e)} required />
         </label>
+        <br />
         <label>
           Director:
-          <input type="text" name="director" value={movieData.director} onChange={(e) => handleChange(e)} />
+          <input type="text" name="director" value={state.director} onChange={(e) => handleChange(e)} required />
         </label>
         <br />
         <label>
           Actors:
-          {movieData.actors.map((actor, index) => (
+          {state.actors.map((actor, index) => (
             <div key={index}>
               <input
                 type="text"
                 name="actors"
                 value={actor}
                 onChange={(e) => handleChange(e, index)}
+                required
               />
               {index > 0 && (
                 <button type="button" onClick={() => handleRemoveActor(index)}>
@@ -139,6 +141,5 @@ const AddMovie = () => {
     </div>
   );
 };
-
 
 export default AddMovie;

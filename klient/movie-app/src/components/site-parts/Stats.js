@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../stylowanie/Stats.css'
+import '../stylowanie/Stats.css';
+
 const Stats = () => {
   const [topActors, setTopActors] = useState([]);
   const [topMovies, setTopMovies] = useState([]);
@@ -25,13 +26,12 @@ const Stats = () => {
             : null,
         };
       });
-  
+
       setTopActors(actorsWithImages);
     } catch (error) {
       console.error('Error fetching top actors:', error);
     }
   };
-  
 
   const fetchTopMovies = async () => {
     try {
@@ -44,11 +44,11 @@ const Stats = () => {
       console.error('Error fetching top movies:', error);
     }
   };
+
   return (
     <div className='Stats'>
-      <h2>Stats Component</h2>
 
-      <h3>Top 6 Actors</h3>
+      <h1>Top 6 Actors</h1>
       <ul>
         {topActors.map((actor, idd) => (
           <li key={actor.id}>
@@ -66,7 +66,7 @@ const Stats = () => {
         ))}
       </ul>
 
-      <h3>Top 6 Movies</h3>
+      <h1>Top 6 Movies</h1>
       <ul>
         {topMovies.map((movie, idd) => (
           <li key={movie.id}>

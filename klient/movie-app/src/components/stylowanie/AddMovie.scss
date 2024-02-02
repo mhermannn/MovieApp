@@ -3,13 +3,13 @@
     margin: 0 auto;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
   
     h2 {
       font-size: 36px;
       margin-bottom: 20px;
-      color: #f39c12; /* Consistent with previous suggestions */
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Enhanced text shadow */
+      color: #f39c12; 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
     }
   
     form {
@@ -17,7 +17,7 @@
         display: block;
         margin-bottom: 15px;
         font-size: 18px;
-        color: #ccc; /* Text color consistent with the theme */
+        color: #ccc; 
       }
   
       input[type="text"],
@@ -30,7 +30,7 @@
         border-radius: 8px;
         margin-top: 5px;
         box-sizing: border-box;
-        transition: border-color 0.3s; /* Smooth transition for border color */
+        transition: border-color 0.3s; 
       }
   
       textarea {
@@ -41,15 +41,15 @@
       input[type="text"]:focus,
       input[type="date"]:focus,
       textarea:focus {
-        border-color: #f39c12; /* Highlight border color on focus */
-        outline: none; /* Remove default focus outline */
+        border-color: #f39c12; 
+        outline: none; 
       }
   
       button[type="submit"],
       button[type="button"] {
         padding: 12px 24px;
         font-size: 16px;
-        background-color: #f39c12; /* Button color consistent with the theme */
+        background-color: #f39c12;
         color: #fff;
         border: none;
         border-radius: 8px;
@@ -58,7 +58,7 @@
         margin-top: 5px;
   
         &:hover {
-          background-color: #e67e22; /* Darker shade on hover */
+          background-color: #e67e22; 
         }
       }
   
@@ -73,7 +73,7 @@
         }
   
         button[type="button"] {
-          background-color: #c0392b; /* Red color for remove button */
+          background-color: #c0392b; 
         }
       }
     }

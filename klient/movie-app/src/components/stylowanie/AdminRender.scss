@@ -1,7 +1,6 @@
 .adrender {
     margin-bottom: 20px;
     .compart {
-        // background-color:#2980b9;
         margin-top: 15px;
         padding: 10px;
         border-radius: 5px;
@@ -17,7 +16,7 @@
         button {
           margin-left: 5px;
           padding: 5px 10px;
-          background-color: #e74c3c; /* Red color for delete and edit buttons */
+          background-color: #e74c3c; 
           color: #fff;
           border: none;
           border-radius: 3px;
@@ -26,20 +25,20 @@
           &:nth-child(2){
             background-color: #f39c12;
             &:hover {
-                background-color: #e67e22; /* Darker shade for hover effect */
+                background-color: #e67e22; 
               }
 
           }
   
           &:hover {
-            background-color: #c0392b; /* Darker shade for hover effect */
+            background-color: #c0392b; 
           }
         }
       }
   
       p {
         margin-top: 10px;
-        color: #7f8c8d; /* Gray color for empty comments message */
+        color: #7f8c8d; 
       }
   
       form {
@@ -57,7 +56,7 @@
   
         button[type='submit'] {
           padding: 5px 10px;
-          background-color: #f39c12; /* Green color for add comment button */
+          background-color: #f39c12; 
           color: #fff;
           border: none;
           border-radius: 3px;
@@ -65,7 +64,7 @@
           transition: background-color 0.3s;
   
           &:hover {
-            background-color: #e67e22; /* Darker shade for hover effect */
+            background-color: #e67e22; 
           }
         }
       }
