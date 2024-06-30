@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const movieController = require('../controllers/movieController');
-
+const newMovieController = require('../controllers/newMovieController');
 //search part
-router.get('/movie-search/:pattern', movieController.MovieSearch);//
-router.get('/movie-search/:pattern/new', movieController.MovieSearchNew);//
-router.get('/movie-search/:pattern/old', movieController.MovieSearchOld);//
-router.get('/genre-search/:pattern', movieController.GenSearch);//
-router.get('/genre-search/:pattern/new', movieController.GenSearchNew);//
-router.get('/genre-search/:pattern/old', movieController.GenSearchOld);//
+router.get('/movies/searchPaged/:pattern', newMovieController.MovieSearchPaged);
+router.get('/genres/searchPaged/:pattern', newMovieController.GenSearchPaged);
+router.get('/movies/countPaged/:pattern', newMovieController.MovieCountPaged);
+router.get('/genres/countPaged/:pattern', newMovieController.GenCountPaged);
 
 //comments
 router.post('/movie-comment', movieController.CommentPost); //
@@ -34,3 +32,10 @@ router.get('/genres/:id', movieController.GetGenres);//
 router.get('/director/:id', movieController.GetDirector);//
 router.get('/movie/:id', movieController.MovieGet);//
 module.exports = router; 
+
+// router.get('/movie-search/:pattern', movieController.MovieSearch);//
+// router.get('/movie-search/:pattern/new', movieController.MovieSearchNew);//
+// router.get('/movie-search/:pattern/old', movieController.MovieSearchOld);//
+// router.get('/genre-search/:pattern', movieController.GenSearch);//
+// router.get('/genre-search/:pattern/new', movieController.GenSearchNew);//
+// router.get('/genre-search/:pattern/old', movieController.GenSearchOld);//
