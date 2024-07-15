@@ -1,21 +1,31 @@
 .addmovie {
   max-width: 100vw;
-  margin: 0 auto;
+  width: 80%;
+  margin-top: 5px;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .addmovie h2 {
   font-size: 36px;
+  margin-left: 8em;
   margin-bottom: 20px;
-  color: #f39c12; /* Consistent with previous suggestions */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Enhanced text shadow */
+  color: #2980b9;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.addmovie form {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .addmovie form label {
   display: block;
   margin-bottom: 15px;
   font-size: 18px;
-  color: #ccc; /* Text color consistent with the theme */
+  color: #34495e;
+  width: 100%;
 }
 .addmovie form input[type=text],
 .addmovie form input[type=date],
@@ -27,7 +37,7 @@
   border-radius: 8px;
   margin-top: 5px;
   box-sizing: border-box;
-  transition: border-color 0.3s; /* Smooth transition for border color */
+  transition: border-color 0.3s;
 }
 .addmovie form textarea {
   height: 100px;
@@ -36,34 +46,36 @@
 .addmovie form input[type=text]:focus,
 .addmovie form input[type=date]:focus,
 .addmovie form textarea:focus {
-  border-color: #f39c12; /* Highlight border color on focus */
-  outline: none; /* Remove default focus outline */
+  border-color: #2980b9;
+  outline: none;
 }
 .addmovie form button[type=submit],
 .addmovie form button[type=button] {
   padding: 12px 24px;
   font-size: 16px;
-  background-color: #f39c12; /* Button color consistent with the theme */
+  background-color: #2980b9;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
   margin-top: 5px;
+  width: auto;
 }
 .addmovie form button[type=submit]:hover,
 .addmovie form button[type=button]:hover {
-  background-color: #e67e22; /* Darker shade on hover */
+  background-color: #1abc9c;
 }
 .addmovie form .actor-input {
   display: flex;
   align-items: center;
   margin-top: 5px;
+  width: 100%;
 }
 .addmovie form .actor-input input[type=text] {
   flex: 1;
   margin-right: 10px;
 }
 .addmovie form .actor-input button[type=button] {
-  background-color: #c0392b; /* Red color for remove button */
+  background-color: #c0392b;
 }/*# sourceMappingURL=AddMovie.css.map */

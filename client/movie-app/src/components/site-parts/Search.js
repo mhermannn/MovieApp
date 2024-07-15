@@ -268,7 +268,7 @@ const SearchMovie = () => {
               <option value="yearnew">rok (od najnowszego)</option>
               <option value="yearold">rok (od najstarszego)</option>
             </select>
-            <button type="submit">Search</button>
+            {/* <button type="submit">Search</button> */}
           </div>
         </form>
       </div>

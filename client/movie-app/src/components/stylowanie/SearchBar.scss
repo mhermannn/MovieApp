@@ -1,61 +1,86 @@
+@import '_colors.scss';
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
 .search {
-  padding: 5px; 
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 0;
-  background-color: #2c3e50;
+  position: relative;
+  margin: auto;
+  left:10em;
+  top: 10%;
+  width: 60em;
+  height: min-content;
+  
   .szukamy {
+    // position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background-color: #2c3e50;
-    padding-top: 10px;
-    margin:auto;
-    border-radius: 10px; 
-    margin-bottom: 20px; 
+    justify-content: center;
+    background-color: $background-color;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
     form {
       display: flex;
       align-items: center;
-      input[type="text"],
+
+      input[type="text"] {
+        font-family: 'Inconsolata', monospace;
+        position: relative;
+        width: 200px;
+        height: 50px;
+        outline: none;
+        border: none;
+        background: $secondary-color;
+        color: white;
+        text-shadow: 0 0 10px $secondary-color;
+        padding: 0 20px;
+        border-radius: 30px;
+        box-shadow: 0 0 25px 0 $secondary-color,
+                    0 20px 25px 0 rgba(0, 0, 0, 0.2);
+        transition: all 1s;
+        z-index: 5;
+        font-weight: bolder;
+        letter-spacing: 0.1em;
+        
+        &:hover {
+          cursor: pointer;
+        }
+
+        &:focus {
+          width: 300px;
+          cursor: text;
+        }
+
+        &::placeholder {
+          color: white;
+          opacity: 0.5;
+          font-weight: bolder;
+        }
+      }
+
       select {
+        width: 180px;
+        height: 50px;
         padding: 10px;
+        background: #fff;
+        color: $secondary-color;
         border: 1px solid #ccc;
         border-radius: 4px;
         font-size: 16px;
-        outline: none;
-        margin-right: 10px; 
-        background-color: #fff; 
-        width: 400px; 
-        
-        &::placeholder {
-          color: #999;
-        }
-      }
-      
-      button {
-        padding: 10px 16px;
-        background-color: #c47f0f; 
-        color: white;
-        border: none;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-        outline: none;
-        
-        &:hover {
-          background-color: #f39c12; /* Darker shade on hover */
-        }
+        margin-left: 10px;
+        transition: all 1s;
       }
     }
   }
-  .znajdujemy{
-    background-color: #2c3e50;
 
-    .next{
+  .znajdujemy {
+    background-color: $background-color;
+
+    .next {
       display: flex;
       margin-top: 0;
-      .rating-section{
-        h4{
+
+      .rating-section {
+        h4 {
           margin-bottom: 2px;
         }
       }

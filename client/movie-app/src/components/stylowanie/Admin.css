@@ -5,19 +5,21 @@
 }
 .admin h2 {
   font-size: 36px;
+  font: 700 3rem Raleway, sans-serif;
+  text-transform: uppercase;
   margin-bottom: 20px;
-  color: #f39c12; /* Consistent with previous suggestions */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Enhanced text shadow */
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 .admin h3 {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #2c3e50; /* Subdued text color */
+  color: #2c3e50;
 }
 .admin button {
   padding: 6px 12px;
   font-size: 16px;
-  background-color: #f39c12; /* Button color consistent with the theme */
+  background-color: #2980b9;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -26,7 +28,7 @@
   margin: 5px;
 }
 .admin button:hover {
-  background-color: #e67e22; /* Darker shade on hover */
+  background-color: #1abc9c;
 }
 .admin .movie-list {
   list-style: none;

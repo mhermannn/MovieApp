@@ -1,3 +1,4 @@
+@import 'colors.scss';
 .szukamy {
   // background-color: #ea9085;
   display: flex;
@@ -19,7 +20,7 @@
   
     &:focus {
       outline: none;
-      border-color: #f39c12;
+      border-color: $secondary-color;
     }
   }
   form{
@@ -32,9 +33,45 @@
         border-radius: 5px;
         flex-grow: 1;
         margin: auto 0;
-        background-color:#f39c12;
+        background-color:$secondary-color;
         color:#ccc;
       }
     }
   }
 }
+// .search-bar {
+//   display: flex;
+//   justify-content: center;
+//   margin-bottom: 30px;
+
+//   input[type="text"] {
+//     width: 400px;
+//     padding: 12px;
+//     font-size: 16px;
+//     border: 1px solid #ddd;
+//     border-radius: 5px;
+//     transition: border-color 0.3s, box-shadow 0.3s;
+
+//     &:focus {
+//       border-color: #3498db;
+//       box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+//       outline: none;
+//     }
+//   }
+
+//   button {
+//     padding: 12px 24px;
+//     font-size: 16px;
+//     background-color: #3498db;
+//     color: #fff;
+//     border: none;
+//     border-radius: 5px;
+//     cursor: pointer;
+//     margin-left: 10px;
+//     transition: background-color 0.3s;
+
+//     &:hover {
+//       background-color: #2980b9;
+//     }
+//   }
+// }

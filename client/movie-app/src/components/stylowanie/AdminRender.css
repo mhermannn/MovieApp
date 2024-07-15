@@ -16,7 +16,7 @@
 .adrender .compart .kom button {
   margin-left: 5px;
   padding: 5px 10px;
-  background-color: #e74c3c; /* Red color for delete and edit buttons */
+  background-color: #e74c3c;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -24,17 +24,17 @@
   transition: background-color 0.3s;
 }
 .adrender .compart .kom button:nth-child(2) {
-  background-color: #f39c12;
+  background-color: #2980b9;
 }
 .adrender .compart .kom button:nth-child(2):hover {
-  background-color: #e67e22; /* Darker shade for hover effect */
+  background-color: #1abc9c;
 }
 .adrender .compart .kom button:hover {
-  background-color: #c0392b; /* Darker shade for hover effect */
+  background-color: #c0392b;
 }
 .adrender .compart p {
   margin-top: 10px;
-  color: #7f8c8d; /* Gray color for empty comments message */
+  color: #34495e;
 }
 .adrender .compart form {
   display: flex;
@@ -49,7 +49,7 @@
 }
 .adrender .compart form button[type=submit] {
   padding: 5px 10px;
-  background-color: #f39c12; /* Green color for add comment button */
+  background-color: #2980b9;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -57,7 +57,7 @@
   transition: background-color 0.3s;
 }
 .adrender .compart form button[type=submit]:hover {
-  background-color: #e67e22; /* Darker shade for hover effect */
+  background-color: #1abc9c;
 }
 
 ul {

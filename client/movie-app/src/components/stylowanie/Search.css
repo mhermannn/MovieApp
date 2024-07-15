@@ -19,7 +19,7 @@
 }
 .szukamy input:focus {
   outline: none;
-  border-color: #f39c12;
+  border-color: #2980b9;
 }
 .szukamy form {
   padding-left: 20px;
@@ -31,6 +31,6 @@
   border-radius: 5px;
   flex-grow: 1;
   margin: auto 0;
-  background-color: #f39c12;
+  background-color: #2980b9;
   color: #ccc;
 }/*# sourceMappingURL=Search.css.map */
