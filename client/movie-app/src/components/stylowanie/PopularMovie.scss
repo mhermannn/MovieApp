@@ -16,7 +16,11 @@
     color: $accent-color; 
     opacity: 0.8;
     transform: scaleX(1.2); 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+    text-shadow: 
+        -1px -1px 0 black,
+        1px -1px 0 black,
+        -1px 1px 0 black,
+        1px 1px 0 black;
   }
 }
 

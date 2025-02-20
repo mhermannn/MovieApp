@@ -14,7 +14,7 @@
     "dotenv": "^16.3.2",
     "express": "^4.19.2",
     "neo4j": "^2.0.0-RC2",
-    "neo4j-driver": "^5.16.0",
+    "neo4j-driver": "^5.22.0",
     "node-driver": "^0.0.0",
     "node-fetch": "^3.3.2"
   }
